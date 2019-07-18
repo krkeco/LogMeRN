@@ -11,12 +11,15 @@ import {
   StatusBar,
 } from 'react-native';
 
+import AButton from './AButton.js';
+
 export default class LogItem extends Component<Props> {
  constructor(props) {
     super(props);
     this.state = {
     }
   }
+
 
   render() {
   
@@ -26,9 +29,9 @@ export default class LogItem extends Component<Props> {
           style={{flex:1, flexDirection:'row'}}>
           
           <TouchableOpacity 
-            onPress={() => this.props.selectLog(index)} >
+            onPress={() => this.props.selectLog(this.props.log)} >
             
-            <Text style={{height:50, width: 200}} >log {this.props.log}</Text>
+            <Text style={{height:50, width: 200}} >log {this.props.log.name}</Text>
           </TouchableOpacity>
            
           <Picker
@@ -43,6 +46,11 @@ export default class LogItem extends Component<Props> {
             <Picker.Item label="4" value="4" />
             <Picker.Item label="5" value="5" />
           </Picker>
+
+          <AButton
+            onPress={() => {this.props.deleteLog(this.props.index)}}
+            text="Delete this Log"
+            />
 
         </View>
       </View>

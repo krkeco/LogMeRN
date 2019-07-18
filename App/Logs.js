@@ -9,6 +9,7 @@ import {
   TextInput,
   Text,
   StatusBar,
+  Alert,
 } from 'react-native';
 
 // import Storage from 'react-native-storage';
@@ -34,19 +35,33 @@ export default class Logs extends Component<Props> {
     super(props);
     this.state = {
       newLog: false,
+      deleteLog: false,
+      deleteBook: false,
       showGraph: false,
       newLogText: 'log',
     }
   }
 
   selectLog = (log) => {
-    alert(log);
+    alert(log.name);
   }
 
-  addLog = (log) => {
-    this.props.logBook.logs.push(log);
+  addLog = (title) => {
+    this.props.logBook.logs.push(this.newLog(title));
     this.setState({newLog: false});
   }
+
+  // addLog = (logbook,title) => {
+  //   logbook.logs.push(this.newLog(title));
+  // }
+  newLog = (title) =>{
+    let newLog = {
+      "name":title,
+      "data":[]
+    }
+    return newLog;
+  }
+
 
   logData = () => {
     alert('going to do something!')
@@ -57,20 +72,30 @@ export default class Logs extends Component<Props> {
   }
 
   render() {
-    let logs = <View >
-    {this.props.logBook.logs.map((log,index) => {
-          return <LogItem
-            key={index}
-            selectLog={() => this.selectLog(index)}
-            log={log}
-            index={index}/>
-    })}
-    </View>
-
-    if(this.state.showGraph){
-      logs = <GraphData/>
+    let logs = null;
+    if(this.props.logBook.logs != null){
+        logs = <View >
+        {this.props.logBook.logs.map((log,index) => {
+              return <LogItem
+                deleteLog={(logIndex) => this.props.deleteLog(logIndex)}
+                key={index}
+                selectLog={() => this.selectLog}
+                log={log}
+                index={index}/>
+        })}
+        </View>
     }
 
+    if(this.state.showGraph){
+      logs = <GraphData
+        logBook={this.props.logBook}/>
+    }
+
+
+    let deleteButton = <AButton
+      onPress={() => this.props.deleteBook()} 
+      text="Delete this logBook"
+      />
 
     let addButton = <AButton
       onPress={() => this.setState({newLog: true})} 
@@ -97,7 +122,9 @@ export default class Logs extends Component<Props> {
 
     return (
       <View>
+        {deleteButton}
         <Text>{this.props.logBook.name} logs:</Text>
+
         
         {logs}
       

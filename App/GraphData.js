@@ -26,19 +26,7 @@ export default class GraphData extends Component<Props> {
     super(props);
     this.state = {
       width: 0,
-    }
-  }
-
-  
-  onLayout(e) {
-    this.setState({width: Dimensions.get('window').width})
-    // console.log(width, height)
-  }
-
-
-  render() {
-
-    const logBook = [
+      logBook: [
       {
         data: [
           4,3,2,5,1
@@ -49,7 +37,25 @@ export default class GraphData extends Component<Props> {
           1,2,3,4,5
         ]
       }
-      ];
+      ],
+
+    }
+  }
+
+  
+  onLayout(e) {
+    this.setState({width: Dimensions.get('window').width})
+    // console.log(width, height)
+  }
+
+
+  onComponentWillMount(){
+    // this.props.logBook.logs.map((log, index) => {
+      
+    // })
+  }
+
+  render() {
 
     return(
       <View
@@ -60,7 +66,7 @@ export default class GraphData extends Component<Props> {
         <LineChart
           data={{
             labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-            datasets: logBook
+            datasets: this.state.logBook
           }}
           width={this.state.width} // from react-native
           height={220}

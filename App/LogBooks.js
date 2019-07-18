@@ -24,30 +24,33 @@ export default class LogBooks extends Component<Props> {
 
   addLogBook = (title) => {
     this.setState({newLogBook: false})
-    this.props.books.push({"name": title,"logs": []})
+    this.props.books.push(this.props.newBook(title))
   }
 
-  render() {
-    let booksView = this.props.books.map((book,index) => {
-      return <TouchableOpacity 
-      key={index}
-      onPress={() => this.props.selectBook(index)} >
-        <Text style={{fontSize: 18, marginTop:10}}>book {book.name}</Text>
-        {book.logs.map((log, index) => {
-          return <Text key={index} style={{marginLeft: 10}}>{log}</Text>
-        })}
-      </TouchableOpacity>
-    })
+  // addBook = (title) =>{
+  //   books.push(this.newBook(title))
+  // }
 
+
+  render() {
+    let bookView = null;
+
+    if(this.props.books != null){
+        booksView = this.props.books.map((book,index) => {
+          return <TouchableOpacity 
+          key={index}
+          onPress={() => this.props.selectBook(index)} >
+            <Text style={{fontSize: 18, marginTop:10}}>book {book.name}</Text>
+            {book.logs.map((log, index) => {
+              return <Text key={index} style={{marginLeft: 10}}>{log.name}</Text>
+            })}
+          </TouchableOpacity>
+        })
+    }
     let addButton = <AButton
     onPress={()=>this.setState({newLogBook: true})} 
     text="Add a LogBook"
     />
-        // <TouchableOpacity 
-        //   style={{marginTop:10}}
-        //   onPress={() => this.setState({newLogBook: true})} >
-        //   <Text>Add a LogBook</Text>
-        // </TouchableOpacity>;
 
     let newLogModal =
     <DialogInput isDialogVisible={this.state.newLogBook}

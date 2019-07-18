@@ -6,31 +6,31 @@ import {
   View,
   Text,
   StatusBar,
+  Alert,
 } from 'react-native';
 
 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from 'react-native-chart-kit'
- 
 import LogBooks from './LogBooks.js';
 import Logs from './Logs.js';
 import Menu from './Menu.js';
 
-const cup = {
-  "material": 'glass',
-  "volume": 750, //ml
-  "design": "australian aboriginiieeeeeeee"
-}
 
-const logs =  ['anger','happiness','patience']
-const logs2 =  ['joy','peace','fatigue']
-const books =  [{'name': 'Logbook1', 'logs': logs},{'name': 'Logbook2', 'logs': logs2}]
+
+//logbook
+//log
+//data
+
+let data = [{"date":20190707,"value":2},{"date":20190708,"value":4}]
+
+let log = {"name":"patience","data":data}
+
+// let ledger = {
+//   "name":"birthdays",
+//   logs: [
+//     log
+//   ]
+// }
+
 
 export default class Navigator extends Component<Props> {
  constructor(props) {
@@ -38,10 +38,70 @@ export default class Navigator extends Component<Props> {
     this.state = {
       showLogBook: false,
       selectedBook: 0,
+      books: [],
     }
   }
 
+  deleteLogAlert = (logIndex) => {
+    
+    Alert.alert(
+      'Delete Log',
+      'Deleting this log means you will lose all the data you stored for it, are you sure you want to do this (this is irreversible).',
+      [
+        {
+          text: 'Oh Snap!',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+       
+        {text: 'Confirmed!', onPress: () => this.deleteLog(logIndex)}
+      ],
+        {cancelable: false},
+    );
 
+  }
+  deleteBook = () => {
+    this.goBack();
+    // alert('deleting'+this.state.selectedBook)
+    let newBook = []
+    this.state.books.map((logbook, index) => {
+      if(index != this.state.selectedBook){
+        newBook.push(logbook);
+      }
+    this.setState({books: newBook});
+    });
+  }
+
+  deleteLog = (logIndex) => {
+    // let newBooks = this.state.books[this.state.selectedBook].logs.splice(logIndex,1);
+    // this.setState({books: newBooks})
+    let newBook = []
+    let newLogBook = []
+    // let newLogs = []
+
+    this.state.books.map((logbook, index) => {
+      if(index != this.state.selectedBook){
+        newBook.push(logbook);
+      }else{
+        newLogBook = this.newBook(logbook.name);
+        logbook.logs.map((log,i) =>{
+          if(i != logIndex){
+            newLogBook.logs.push(log);
+          }
+        });
+        newBook.push(newLogBook);
+      }
+    });
+    this.setState({books: newBook});
+  }
+
+  newBook = (title) => {
+    let newBook = {
+      "name":title,
+      logs: []
+    }
+    return newBook;
+  }
 
   selectBook = (bookIndex) =>{
     this.setState({
@@ -56,14 +116,35 @@ export default class Navigator extends Component<Props> {
   render() {
     let booksView = 
     <LogBooks
-      books={books}
+    newBook={this.newBook}
+      books={this.state.books}
+      addBook={this.addBook}
       selectBook={this.selectBook}/>
 
     if(this.state.showLogBook){
       booksView = <Logs
-        logBook = {books[this.state.selectedBook]}/>
+        deleteLog={(index)=> this.deleteLogAlert(index)}
+        deleteBook={() => this.deleteBook()}
+        logBook = {this.state.books[this.state.selectedBook]}/>
       
     }
+
+
+
+          // {ledgers.map((ledger, index) =>{
+          //   return <View>
+          //     <Text>{ledger.name}</Text>
+          //       {ledger.logs.map((log,lIndex) => {
+          //         return <View>
+          //         <Text>{log.name}</Text>
+          //         {log.data.map((data,dIndex) =>
+          //           {
+          //             return <Text>{data.date} {data.value}</Text>
+          //           })}
+          //         </View>
+          //       })}
+          //     </View>
+          // })}
 
     return (
       <View >
@@ -72,6 +153,7 @@ export default class Navigator extends Component<Props> {
         <View style={{marginTop: 30}}>
 
           {booksView}
+
 
         </View>
       </View>
