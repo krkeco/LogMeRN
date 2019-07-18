@@ -20,9 +20,10 @@ export default class AButton extends Component<Props> {
   render() {
   
     return (
-      <View>
+      <View 
+      style={{ maxWidth: 150, height: 35, margin:5, padding:5, backgroundColor: '#5f9ea0', borderRadius: 5}}>
          <TouchableOpacity 
-          style={{marginTop:10}}
+          style={{}}
           onPress={() => this.props.onPress()}>
           <Text>{this.props.text}</Text>
         </TouchableOpacity>

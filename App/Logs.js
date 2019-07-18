@@ -67,9 +67,18 @@ export default class Logs extends Component<Props> {
     alert('going to do something!')
   }
 
-  viewGraph = () => {
-    this.setState({showGraph: true});
+  saveLogData = (date,value,log) => {
+    log.data.push(this.newLogData(value,date));
+    
   }
+  newLogData =  (value,date) => {
+    let newData = {
+      "date": date,
+      "value": value,
+    }
+    return newData;
+  }
+
 
   render() {
     let logs = null;
@@ -77,6 +86,7 @@ export default class Logs extends Component<Props> {
         logs = <View >
         {this.props.logBook.logs.map((log,index) => {
               return <LogItem
+                saveLogData={(date,value,log) => {this.saveLogData(date,value,log)}}
                 deleteLog={(logIndex) => this.props.deleteLog(logIndex)}
                 key={index}
                 selectLog={() => this.selectLog}
@@ -94,21 +104,28 @@ export default class Logs extends Component<Props> {
 
     let deleteButton = <AButton
       onPress={() => this.props.deleteBook()} 
-      text="Delete this logBook"
+      text="Delete logBook"
       />
 
     let addButton = <AButton
       onPress={() => this.setState({newLog: true})} 
-      text="Add a Log"
+      text="New Log"
       />
 
     let logButton = <AButton
       onPress={() => this.logData()}
-      text="Log this data"/>
+      text="Log data"/>
 
     let viewGraphButton = <AButton
-      onPress={() => this.viewGraph()}
-      text="View Graph Data"/>
+      onPress={() => this.setState({showGraph: true})}
+      text="View Graph"/>
+
+    if(this.state.showGraph){
+      viewGraphButton = <AButton
+        onPress={() => this.setState({showGraph: false})}
+        text="Hide Graph"/>
+
+    }
 
 
     let newLogModal =
@@ -121,22 +138,26 @@ export default class Logs extends Component<Props> {
     </DialogInput>
 
     return (
-      <View>
-        {deleteButton}
+      <ScrollView>
         <Text>{this.props.logBook.name} logs:</Text>
-
         
+        <View
+          style={{flexDirection:'row',flex:1}}>
+          {deleteButton}
+
+          {addButton}
+
+          {newLogModal}
+
+          {logButton}
+
+          {viewGraphButton}
+        
+        </View>
+
         {logs}
       
-        {addButton}
-
-        {newLogModal}
-
-        {logButton}
-
-        {viewGraphButton}
-      
-      </View>
+      </ScrollView>
     );
 
   }
