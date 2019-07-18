@@ -23,8 +23,9 @@ export default class LogBooks extends Component<Props> {
   }
 
   addLogBook = (title) => {
-    this.setState({newLogBook: false})
+    this.setState({newLogBook: false},this.props.saveData)
     this.props.books.push(this.props.newBook(title))
+    
   }
 
   // addBook = (title) =>{

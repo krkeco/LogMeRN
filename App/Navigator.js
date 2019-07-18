@@ -9,12 +9,13 @@ import {
   Alert,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
 
 import LogBooks from './LogBooks.js';
 import Logs from './Logs.js';
 import Menu from './Menu.js';
 
-
+const BOOKS_KEY = "books";
 
 //logbook
 //log
@@ -24,12 +25,12 @@ let data = [{"date":20190707,"value":2},{"date":20190708,"value":4}]
 
 let log = {"name":"patience","data":data}
 
-// let ledger = {
-//   "name":"birthdays",
-//   logs: [
-//     log
-//   ]
-// }
+let ledger = {
+  "name":"birthdays",
+  logs: [
+    log
+  ]
+}
 
 
 export default class Navigator extends Component<Props> {
@@ -41,6 +42,32 @@ export default class Navigator extends Component<Props> {
       books: [],
     }
   }
+
+  componentDidMount(){
+    this.getLogData();
+  }
+
+  storeData = async () => {
+    try {
+      await AsyncStorage.setItem(BOOKS_KEY, JSON.stringify(this.state.books))
+      // alert('set'+JSON.stringify(this.state.books))
+    } catch (e) {
+      // saving error
+    }
+  }
+  getLogData = async () => {
+    try {
+      const value = await AsyncStorage.getItem(BOOKS_KEY)
+      if(value !== null) {
+        this.setState({books: JSON.parse(value)});
+      }else{
+       
+      }
+    } catch(e) {
+      // error reading value
+    }
+  }
+
 
   deleteLogAlert = (logIndex) => {
     
@@ -60,6 +87,25 @@ export default class Navigator extends Component<Props> {
     );
 
   }
+
+  deleteLogBookAlert = () => {
+    
+    Alert.alert(
+      'Delete LogBook',
+      'Deleting this logbook means you will lose all the data you stored for it, are you sure you want to do this (this is irreversible and super cereal).',
+      [
+        {
+          text: 'Oh Snap!',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+       
+        {text: 'Confirmed!', onPress: () => this.deleteBook()}
+      ],
+        {cancelable: false},
+    );
+
+  }
   deleteBook = () => {
     this.goBack();
     // alert('deleting'+this.state.selectedBook)
@@ -68,7 +114,7 @@ export default class Navigator extends Component<Props> {
       if(index != this.state.selectedBook){
         newBook.push(logbook);
       }
-    this.setState({books: newBook});
+    this.setState({books: newBook},this.storeData);
     });
   }
 
@@ -92,7 +138,7 @@ export default class Navigator extends Component<Props> {
         newBook.push(newLogBook);
       }
     });
-    this.setState({books: newBook});
+    this.setState({books: newBook},this.storeData);
   }
 
   newBook = (title) => {
@@ -116,35 +162,20 @@ export default class Navigator extends Component<Props> {
   render() {
     let booksView = 
     <LogBooks
-    newBook={this.newBook}
+      newBook={this.newBook}
+      saveData={this.storeData}
       books={this.state.books}
       addBook={this.addBook}
       selectBook={this.selectBook}/>
 
     if(this.state.showLogBook){
       booksView = <Logs
+        saveData={this.storeData}
         deleteLog={(index)=> this.deleteLogAlert(index)}
-        deleteBook={() => this.deleteBook()}
+        deleteBook={() => this.deleteLogBookAlert()}
         logBook = {this.state.books[this.state.selectedBook]}/>
       
     }
-
-
-
-          // {ledgers.map((ledger, index) =>{
-          //   return <View>
-          //     <Text>{ledger.name}</Text>
-          //       {ledger.logs.map((log,lIndex) => {
-          //         return <View>
-          //         <Text>{log.name}</Text>
-          //         {log.data.map((data,dIndex) =>
-          //           {
-          //             return <Text>{data.date} {data.value}</Text>
-          //           })}
-          //         </View>
-          //       })}
-          //     </View>
-          // })}
 
     return (
       <View >

@@ -48,7 +48,8 @@ export default class Logs extends Component<Props> {
 
   addLog = (title) => {
     this.props.logBook.logs.push(this.newLog(title));
-    this.setState({newLog: false});
+    
+    this.setState({newLog: false},this.props.saveData);
   }
 
   // addLog = (logbook,title) => {
@@ -61,7 +62,6 @@ export default class Logs extends Component<Props> {
     }
     return newLog;
   }
-
 
   logData = () => {
     alert('going to do something!')
