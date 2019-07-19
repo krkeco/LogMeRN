@@ -27,12 +27,7 @@ export default class LogBooks extends Component<Props> {
     this.props.books.push(this.props.newBook(title))
     
   }
-
-  // addBook = (title) =>{
-  //   books.push(this.newBook(title))
-  // }
-
-
+  
   render() {
     let bookView = null;
 

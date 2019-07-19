@@ -15,12 +15,15 @@ import {
 // import Storage from 'react-native-storage';
 // import AsyncStorage from '@react-native-community/async-storage';
 
+import DatePicker from './DatePicker.js';
 import DialogInput from 'react-native-dialog-input';
 import AButton from './AButton.js';
 import LogItem from './LogItem.js';
 import GraphData from './GraphData.js';
 
  
+import {getPrettyDate} from './Utils.js';
+
 import {
   LineChart,
   BarChart,
@@ -39,6 +42,8 @@ export default class Logs extends Component<Props> {
       deleteBook: false,
       showGraph: false,
       newLogText: 'log',
+      date: 1562482800000,
+      prettyDate: '2019-07-07',
     }
   }
 
@@ -56,7 +61,14 @@ export default class Logs extends Component<Props> {
   //   logbook.logs.push(this.newLog(title));
   // }
   newLog = (title) =>{
+    let r = 125+ Math.floor(Math.random()*130);
+      let g = 125+ Math.floor(Math.random()*130);
+      let b = 125+ Math.floor(Math.random()*130);
+      let o = 1;
+      let colour = `rgba(${r}, ${g}, ${b}, ${o})`;
+
     let newLog = {
+      "color":colour,
       "name":title,
       "data":[]
     }
@@ -68,8 +80,21 @@ export default class Logs extends Component<Props> {
   }
 
   saveLogData = (date,value,log) => {
-    log.data.push(this.newLogData(value,date));
+    let repeatedLog = false;
+    if(log.data != null && log.data != undefined){
+        log.data.map((data,index) =>{
+          if(data.date == date){
+            repeatedLog = true;
+            data.value = value;
+          }
+        })
+    }
+    if(!repeatedLog){
+      log.data.push(this.newLogData(value,date));
+      log.data.sort((a,b) => a.date > b.date)
+    }
     
+    this.props.saveData();
   }
   newLogData =  (value,date) => {
     let newData = {
@@ -79,6 +104,13 @@ export default class Logs extends Component<Props> {
     return newData;
   }
 
+  returnDate = (date) => {
+    this.setState({
+      date: date,
+      prettyDate: getPrettyDate(date)});
+
+  }
+
 
   render() {
     let logs = null;
@@ -86,6 +118,8 @@ export default class Logs extends Component<Props> {
         logs = <View >
         {this.props.logBook.logs.map((log,index) => {
               return <LogItem
+                date={this.state.date}
+                prettyDate={this.state.prettyDate}
                 saveLogData={(date,value,log) => {this.saveLogData(date,value,log)}}
                 deleteLog={(logIndex) => this.props.deleteLog(logIndex)}
                 key={index}
@@ -112,9 +146,12 @@ export default class Logs extends Component<Props> {
       text="New Log"
       />
 
-    let logButton = <AButton
-      onPress={() => this.logData()}
-      text="Log data"/>
+      let dateButton = <DatePicker
+        returnDate={this.returnDate}/>
+
+    // let logButton = <AButton
+    //   onPress={() => this.logData()}
+    //   text="Log data"/>
 
     let viewGraphButton = <AButton
       onPress={() => this.setState({showGraph: true})}
@@ -135,25 +172,42 @@ export default class Logs extends Component<Props> {
       hintInput ={"Your Log"}
       submitInput={ (inputText) => {this.addLog(inputText)} }
       closeDialog={ () => {this.setState({newLog: false})}}>
-    </DialogInput>
+    </DialogInput>;
+
+   
+
+
+    let logBookMenu =
+      <View
+        style={{flexDirection:'row',flex:1}}>
+        {deleteButton}
+
+        {addButton}
+
+        {newLogModal}
+
+        {dateButton}
+
+        {viewGraphButton}
+      
+      </View>;
+
+    if(this.state.showGraph){
+      logBookMenu =
+      <View
+        style={{flexDirection:'row',flex:1}}>
+
+        {viewGraphButton}
+      
+      </View>;
+    }
+
 
     return (
       <ScrollView>
         <Text>{this.props.logBook.name} logs:</Text>
         
-        <View
-          style={{flexDirection:'row',flex:1}}>
-          {deleteButton}
-
-          {addButton}
-
-          {newLogModal}
-
-          {logButton}
-
-          {viewGraphButton}
-        
-        </View>
+        {logBookMenu}
 
         {logs}
       

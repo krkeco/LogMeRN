@@ -17,14 +17,24 @@ export default class AButton extends Component<Props> {
     }
   }
 
+  onPress = () => {
+    if(this.props.onPress != undefined){
+      this.props.onPress();
+    }
+  }
+
   render() {
+    let color = '#5f9ea0';
+    if(this.props.color != undefined){
+      color = this.props.color;
+    }
   
     return (
       <View 
-      style={{ maxWidth: 150, height: 35, margin:5, padding:5, backgroundColor: '#5f9ea0', borderRadius: 5}}>
+      style={{ maxWidth: 150, height: 35, margin:5, padding:5, backgroundColor: color, borderRadius: 5}}>
          <TouchableOpacity 
           style={{}}
-          onPress={() => this.props.onPress()}>
+          onPress={() => this.onPress()}>
           <Text>{this.props.text}</Text>
         </TouchableOpacity>
       </View>
