@@ -114,12 +114,12 @@ export default class GraphData extends Component<Props> {
     
     let totalLabels = Math.abs(endMill - startMill) / (1000 * 60 * 60 * 24);
     
-    let newW = totalLabels*50;
+    let newW = totalLabels*100;
     let paramLabels = [];
     // let currentLabel = this.state.startLabel;
 
     let floatTime = new Date(startMill)
-    for(let x = 1; x <= totalLabels; x++){
+    for(let x = 1; x <= totalLabels+1; x++){
       let mLabel = "";
       if(x == 1 || x % 365 == 0){
         mLabel += floatTime.getFullYear();
