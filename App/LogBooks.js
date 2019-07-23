@@ -12,6 +12,8 @@ import {
 
 import DialogInput from 'react-native-dialog-input';
 import AButton from './AButton.js';
+import {faPlus } from '@fortawesome/free-solid-svg-icons'
+
 
 export default class LogBooks extends Component<Props> {
  constructor(props) {
@@ -34,8 +36,8 @@ export default class LogBooks extends Component<Props> {
     if(this.props.books != null){
         booksView = this.props.books.map((book,index) => {
           return <TouchableOpacity 
-          key={index}
-          onPress={() => this.props.selectBook(index)} >
+            key={index}
+            onPress={() => this.props.selectBook(index)} >
             <Text style={{fontSize: 18, marginTop:10}}>book {book.name}</Text>
             {book.logs.map((log, index) => {
               return <Text key={index} style={{marginLeft: 10}}>{log.name}</Text>
@@ -45,7 +47,8 @@ export default class LogBooks extends Component<Props> {
     }
     let addButton = <AButton
     onPress={()=>this.setState({newLogBook: true})} 
-    text="Add a LogBook"
+    text="LogBook"
+    icon={faPlus}
     />
 
     let newLogModal =

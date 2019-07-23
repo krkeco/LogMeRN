@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
  
 
 type Props = {};
@@ -24,7 +24,7 @@ export default class Menu extends Component<Props> {
       <TouchableOpacity
         style={{position: 'absolute', top: 12, left: 12, zIndex:20}}
         onPress={this.props.goBack}>
-              <FontAwesomeIcon icon={ faCoffee } />
+              <FontAwesomeIcon icon={ faAngleLeft } />
       </TouchableOpacity>
 
     );

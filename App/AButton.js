@@ -10,6 +10,10 @@ import {
   StatusBar,
 } from 'react-native';
 
+// import { faAngleLeft, faBars, faBarChart, faCalendar, faSave, faClose } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+
+
 export default class AButton extends Component<Props> {
  constructor(props) {
     super(props);
@@ -28,16 +32,22 @@ export default class AButton extends Component<Props> {
     if(this.props.color != undefined){
       color = this.props.color;
     }
+
+    let icon = null;
+    if(this.props.icon != undefined){
+      icon = <FontAwesomeIcon size= {25} icon={ this.props.icon } />
+    }
   
     return (
-      <View 
-      style={{ maxWidth: 150, height: 35, margin:5, padding:5, backgroundColor: color, borderRadius: 5}}>
          <TouchableOpacity 
           style={{}}
           onPress={() => this.onPress()}>
-          <Text>{this.props.text}</Text>
-        </TouchableOpacity>
+      <View 
+      style={{flexDirection: 'row', maxWidth: 150, height: 35, margin:5, padding:5, backgroundColor: color, borderRadius: 5}}>
+          {icon}
+          <Text style={{alignSelf: 'center'}}>{this.props.text}</Text>
       </View>
+        </TouchableOpacity>
     );
 
   }

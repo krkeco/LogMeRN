@@ -170,6 +170,7 @@ export default class Navigator extends Component<Props> {
 
     if(this.state.showLogBook){
       booksView = <Logs
+        goBack={this.goBack}
         saveData={this.storeData}
         deleteLog={(index)=> this.deleteLogAlert(index)}
         deleteBook={() => this.deleteLogBookAlert()}
@@ -177,16 +178,11 @@ export default class Navigator extends Component<Props> {
       
     }
 
+        // <Menu
+        //   goBack={this.goBack}/>
     return (
       <View >
-        <Menu
-          goBack={this.goBack}/>
-        <View style={{marginTop: 30}}>
-
           {booksView}
-
-
-        </View>
       </View>
     );
 

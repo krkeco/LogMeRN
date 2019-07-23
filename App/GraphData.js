@@ -24,83 +24,80 @@ import AButton from './AButton.js';
 import {getPrettyDate} from './Utils.js';
 
 import DatePicker from './DatePicker.js';
+import { faChartBar } from '@fortawesome/free-solid-svg-icons'
 
 export default class GraphData extends Component<Props> {
  constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       prettyStart: "2019-07-01",
-      prettyEnd: "2019-07-11",
+      prettyEnd: "2019-07-07",
       startLabel: "2019-07-01",
-      endLabel: "2019-07-11",
-      totalLabels:31,
+      endLabel: "2019-07-07",
+      totalLabels:7,
 
-      labels: [],
 
-      width: 3650,
+      width: 3100,
 
       logSets: [{name:"set1",data:[],color:"#000"}],
       
       masterLogBook: [],
       filters: [],
 
-      logBook: [
+      labels: [1],
+      logBook: [//15s x6  10sx2
       {
-        data: [ 20, 45, 28, 80, 99, 43 ],
+        data: [1],
         name: 'name',
         color: (opacity = 1) => `rgba(50, 250, 50, ${opacity})` // optional
       },
-      {
-        data: [ 20, 45, 28, 80, 99, 43 ].reverse(),
-        name: 'name',
-        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
-      },
-      {
-        name: 'name',
-        data: [
-          4,3,2,5,1
-        ]
-      },
-      { name: 'name',
-        data: [
-          1,2,3,4,5
-        ]
-      }
       ],
 
     }
   }
 
   componentDidMount(){
+    // this.setState({labels: this.props.sampleLabels,
+    //   logBook: this.props.sampleLogBook});
+    
     this.setLabelData();
-    // this.compileData();
-   // setSampleData();
+    // this.compileGraphData();
+   //8s
+   // this.setSampleData();
   }
 
-  setSampleData = () => {
-    let data1 = [];
-    let data2 = [];
-    let data3 = [];
-    let data4 = [];
-    let data5 = [];
-    let data6 = [];
-    let labels = [];
-    for(let x = 0; x < 365; x++){
-      data1.push(Math.random()*10)
-      data2.push(Math.random()*100)
-      data3.push(Math.random()*10)
-      data4.push(Math.random()*100)
-      data5.push(Math.random()*10)
-      data6.push(Math.random()*100)
-      labels.push(Math.random()*5)
-    }
+  setSampleData = () => {//31sx6 15x2+1
+    let data1= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
+    let data2= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
+    // let data3= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
+    // let data4= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
+    // let data5= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
+    // let data6= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
+    let labels = [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
+        
+    // let data2 = [];
+    // let data3 = [];
+    // let data4 = [];
+    // let data5 = [];
+    // let data6 = [];
+    // let labels = [];
+    // for(let x = 0; x < 50; x++){
+    //   data1.push(Math.random()*10)
+    //   data2.push(Math.random()*100)
+    //   data3.push(Math.random()*10)
+    //   data4.push(Math.random()*100)
+    //   data5.push(Math.random()*10)
+    //   data6.push(Math.random()*100)
+    //   labels.push(Math.random()*5)
+    // }
     let logBook = []
     logBook.push({data: data1})
     logBook.push({data: data2})
-    logBook.push({data: data3})
-    logBook.push({data: data4})
-    logBook.push({data: data5})
-    logBook.push({data: data6})
+    // logBook.push({data: data3})
+    // logBook.push({data: data4})
+    // logBook.push({data: data5})
+    // logBook.push({data: data6})
     this.setState({
       logBook: logBook,
       labels: labels
@@ -108,30 +105,31 @@ export default class GraphData extends Component<Props> {
   }
 
   setLabelData = () => {
-    let startMill = new Date(this.state.startLabel).getTime();
+    let startMill = new Date(this.state.startLabel);
+    let endMill = new Date(this.state.endLabel);
+
+    let totalLabels = Math.abs(endMill.getUTCDate() - startMill.getUTCDate() +1);
+    // alert(startMill +" "+endMill + " " +totalLabels);
     
-    let endMill = new Date(this.state.endLabel).getTime();
-    
-    let totalLabels = Math.abs(endMill - startMill) / (1000 * 60 * 60 * 24);
     
     let newW = totalLabels*100;
     let paramLabels = [];
-    // let currentLabel = this.state.startLabel;
+    let currentLabel = this.state.startLabel;
 
-    let floatTime = new Date(startMill)
-    for(let x = 1; x <= totalLabels+1; x++){
+    let floatTime = new Date(this.state.startLabel)
+    for(let x = 1; x <= totalLabels; x++){
       let mLabel = "";
       if(x == 1 || x % 365 == 0){
-        mLabel += floatTime.getFullYear();
-        mLabel += "-";6
+        mLabel += floatTime.getUTCFullYear();
+        mLabel += "-";
       }
-      mLabel += (floatTime.getMonth() +1);
+      mLabel += (floatTime.getUTCMonth() +1);
       mLabel += "-";
-      mLabel += floatTime.getDate();
+      mLabel += floatTime.getUTCDate();
 
       paramLabels.push(mLabel)
 
-      floatTime = new Date(startMill + (x)*1000*60*60*24);
+      floatTime = new Date(startMill.getTime() + (x)*1000*60*60*24);
       
     }
     this.setState({
@@ -165,7 +163,7 @@ export default class GraphData extends Component<Props> {
             floatTime = new Date(startMills + (index)*1000*60*60*24);
             
             let labelData = 0;
-            let milLabel = new Date(label)
+            // let milLabel = new Date(label)
             dataInRange.map((logData, dI) => {
               // alert(logData.date + " vs "+ floatTime)
               let logDate = new Date(logData.date);
@@ -235,7 +233,16 @@ export default class GraphData extends Component<Props> {
   }
 
   setStartDate = (date) => {
-    this.setState({startLabel: getPrettyDate(date)},this.setLabelData);
+    let d = new Date(date)
+    let ed = new Date(this.state.endLabel)
+    let newDate = getPrettyDate(date);
+
+    if(d.getDate() +7 > ed.getDate()){
+      let endD = d.getTime() + 7*24*60*60*1000;
+      this.setState({endLabel: getPrettyDate(endD),startLabel: getPrettyDate(date)},this.setLabelData);  
+    }else{
+      this.setState({startLabel: getPrettyDate(date)},this.setLabelData);
+    }
   }
   setEndDate = (date) => {
     this.setState({endLabel: getPrettyDate(date)},this.setLabelData);
@@ -250,7 +257,7 @@ export default class GraphData extends Component<Props> {
 
 
 
-    let logRadios = <View>
+    let logRadios = <View style={{flexDirection:'row'}} >
     {this.state.masterLogBook.map((log,index) => {
       
       return <AButton 
@@ -262,13 +269,23 @@ export default class GraphData extends Component<Props> {
     })}
     </View>
         
-
-    return(
-      <ScrollView>
+        let view = <ScrollView>
         <View style={{flexDirection: 'row'}}>
-        {startDateButton}{endDateButton}
+        {startDateButton}
+        {endDateButton}
+        <AButton
+        onPress={() => this.props.goBack()}
+        text="Hide"
+        icon={faChartBar}/>
         </View>
-        <Text>start: {this.state.startLabel} end {this.state.endLabel}</Text>
+        <Text>Graphing from: {this.state.startLabel} to {this.state.endLabel}</Text>
+
+        <ScrollView
+          horizontal={true}
+          onLayout={this.onLayout.bind(this)}>
+          
+          {logRadios}
+        </ScrollView>
         <ScrollView
           horizontal={true}
           onLayout={this.onLayout.bind(this)}>
@@ -298,8 +315,13 @@ export default class GraphData extends Component<Props> {
             }}
           />
         </ScrollView>
-        {logRadios}
+        
       </ScrollView>
+
+    return(
+      <View>
+      {view}
+      </View>
     );
 
   }

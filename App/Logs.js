@@ -24,6 +24,10 @@ import GraphData from './GraphData.js';
  
 import {getPrettyDate} from './Utils.js';
 
+import { faAngleLeft, faBars, faChartBar, faCalendar, faSave, faWindowClose, faPlus } from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+
+
 import {
   LineChart,
   BarChart,
@@ -32,7 +36,7 @@ import {
   ContributionGraph,
   StackedBarChart
 } from 'react-native-chart-kit'
- 
+
 export default class Logs extends Component<Props> {
  constructor(props) {
     super(props);
@@ -47,6 +51,10 @@ export default class Logs extends Component<Props> {
     }
   }
 
+  componentDidMount(){
+    
+  }
+
   selectLog = (log) => {
     alert(log.name);
   }
@@ -57,9 +65,6 @@ export default class Logs extends Component<Props> {
     this.setState({newLog: false},this.props.saveData);
   }
 
-  // addLog = (logbook,title) => {
-  //   logbook.logs.push(this.newLog(title));
-  // }
   newLog = (title) =>{
     let r = 125+ Math.floor(Math.random()*130);
       let g = 125+ Math.floor(Math.random()*130);
@@ -83,13 +88,15 @@ export default class Logs extends Component<Props> {
     let repeatedLog = false;
     if(log.data != null && log.data != undefined){
         log.data.map((data,index) =>{
+          // alert(data.date + ' vs ' + date)
           if(data.date == date){
+            alert('already had this date')
             repeatedLog = true;
             data.value = value;
           }
         })
     }
-    if(!repeatedLog){
+    if(repeatedLog == false){
       log.data.push(this.newLogData(value,date));
       log.data.sort((a,b) => a.date > b.date)
     }
@@ -113,7 +120,7 @@ export default class Logs extends Component<Props> {
 
 
   render() {
-    let logs = null;
+    // let logs = null;
     if(this.props.logBook.logs != null){
         logs = <View >
         {this.props.logBook.logs.map((log,index) => {
@@ -130,37 +137,52 @@ export default class Logs extends Component<Props> {
         </View>
     }
 
-    if(this.state.showGraph){
-      logs = <GraphData
-        logBook={this.props.logBook}/>
-    }
+      // <View style={{  visibility: graphVisibility}}>
+      // <GraphData
+
+      // sampleLabels={[4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,]}
+      // sampleLogBook={[
+      // {
+      //   data: [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,],
+      //   name: 'name',
+      //   color: (opacity = 1) => `rgba(50, 250, 50, ${opacity})` // optional
+      // },
+      // {
+      //   data: [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,],
+      //   name: 'name',
+      //   color: (opacity = 1) => `rgba(50, 250, 50, ${opacity})` // optional
+      // },
+      // ]}
+      //   logBook={this.props.logBook}/>
+      //   </View>
+    
 
 
     let deleteButton = <AButton
       onPress={() => this.props.deleteBook()} 
-      text="Delete logBook"
+      icon={faWindowClose}
       />
 
     let addButton = <AButton
       onPress={() => this.setState({newLog: true})} 
-      text="New Log"
+      text="Log"
+      icon={faPlus}
       />
 
       let dateButton = <DatePicker
         returnDate={this.returnDate}/>
 
-    // let logButton = <AButton
-    //   onPress={() => this.logData()}
-    //   text="Log data"/>
-
     let viewGraphButton = <AButton
       onPress={() => this.setState({showGraph: true})}
-      text="View Graph"/>
+      text="Show"
+      icon={faChartBar}/>
 
     if(this.state.showGraph){
-      viewGraphButton = <AButton
-        onPress={() => this.setState({showGraph: false})}
-        text="Hide Graph"/>
+      viewGraphButton = null;
+
+      logs = <GraphData
+        goBack={()=>this.setState({showGraph: false})}
+        logBook={this.props.logBook}/>;
 
     }
 
@@ -180,7 +202,7 @@ export default class Logs extends Component<Props> {
     let logBookMenu =
       <View
         style={{flexDirection:'row',flex:1}}>
-        {deleteButton}
+        
 
         {addButton}
 
@@ -191,6 +213,19 @@ export default class Logs extends Component<Props> {
         {viewGraphButton}
       
       </View>;
+
+    if(this.props.logBook.logs.length < 1){
+      logBookMenu =
+            <View
+        style={{flexDirection:'row',flex:1}}>
+        {deleteButton}
+
+        {addButton}
+
+        {newLogModal}
+      
+      </View>;
+    }
 
     if(this.state.showGraph){
       logBookMenu =
@@ -205,9 +240,17 @@ export default class Logs extends Component<Props> {
 
     return (
       <ScrollView>
-        <Text>{this.props.logBook.name} logs:</Text>
+        <View style={{flexDirection:'row'}}>
+          <AButton
+            icon={faAngleLeft}
+            onPress={this.props.goBack}/>
+
+          <Text style={{fontSize: 32, flex:1}} >{this.props.logBook.name}</Text>
+          {deleteButton}
+        </View>
         
         {logBookMenu}
+
 
         {logs}
       
