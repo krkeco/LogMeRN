@@ -55,10 +55,6 @@ export default class Logs extends Component<Props> {
     
   }
 
-  selectLog = (log) => {
-    alert(log.name);
-  }
-
   addLog = (title) => {
     this.props.logBook.logs.push(this.newLog(title));
     
@@ -87,65 +83,20 @@ export default class Logs extends Component<Props> {
 
   saveLogData = (date,value,note,log) => {
 
-    // let repeatedLog = false;
-    
-    // for(key in log.values){
-    //   alert('checking key'+key)
-    //   if(key == date){
-    //     // alert('this key is taken')
-    //   }else{
-    //     // alert('new key saved')
-    //   }
-    // }
-    //     log.values.map((entry,index) =>{
-    //       // alert(data.date + ' vs ' + date)
-    //       if(entry.date == date){
-    //         repeatedLog = true;
-    //         entry.value = value;
-    //         entry.note = note;
-    //         alert('Overwriting entry')
-    //       }
-    //     })
-    
-    // if(repeatedLog == false){
-      let key = getPrettyDate(date);
-      log.values[key] = this.newLogObject(value,note);
-      // log.values.sort((a,b) => a.date > b.date)
-    // }
-    alert(JSON.stringify(this.props.logBook))
+    let key = getPrettyDate(date);
+    log.values[key] = this.newLogObject(value,note);
     
     this.props.saveData();
 
-
-
-
-    // let repeatedLog = false;
-    // if(log.values != null && log.values != undefined){
-    //     log.values.map((entry,index) =>{
-    //       // alert(data.date + ' vs ' + date)
-    //       if(entry.date == date){
-    //         repeatedLog = true;
-    //         entry.value = value;
-    //         entry.note = note;
-    //         alert('Overwriting entry')
-    //       }
-    //     })
-    // }
-    // if(repeatedLog == false){
-    //   log.values.push(this.newLogEntry(value,date,note));
-    //   log.values.sort((a,b) => a.date > b.date)
-    // }
-    
-    // this.props.saveData();
   }
-  newLogEntry =  (value,date,note) => {
-    let newEntry = {
-      "date": date,
-      "value": value,
-      "note": note,
-    }
-    return newEntry;
-  } 
+  // newLogEntry =  (value,date,note) => {
+  //   let newEntry = {
+  //     "date": date,
+  //     "value": value,
+  //     "note": note,
+  //   }
+  //   return newEntry;
+  // } 
   newLogObject =  (value,note) => {
     let newEntry = {
       "value": value,
@@ -168,6 +119,7 @@ export default class Logs extends Component<Props> {
         logs = <View >
         {this.props.logBook.logs.map((log,index) => {
               return <LogItem
+                setDate={(date)=>{this.returnDate(date)}}
                 date={this.state.date}
                 prettyDate={this.state.prettyDate}
                 saveLogData={(date,value,note,log) => {this.saveLogData(date,value,note,log)}}
@@ -202,6 +154,7 @@ export default class Logs extends Component<Props> {
       viewGraphButton = null;
 
       logs = <SampleLine
+        goBack={()=>this.setState({showGraph:false})}
         logBook={this.props.logBook}/>
       // <GraphData
       //   goBack={()=>this.setState({showGraph: false})}

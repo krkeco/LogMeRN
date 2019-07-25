@@ -21,9 +21,9 @@ import {
 //   StackedBarChart
 // } from 'react-native-chart-kit'
 
-import AButton from './AButton.js';
 import {getPrettyDate} from './Utils.js';
 
+import AButton from './AButton.js';
 import DatePicker from './DatePicker.js';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons'
 

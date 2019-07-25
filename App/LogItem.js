@@ -32,18 +32,38 @@ export default class LogItem extends Component<Props> {
 
   componentDidMount(){
     // alert('lets check date')
-    // this.props.log.values.map((value, index) =>{
-    //   // alert('index'+index+' '+value.date+' '+this.props.date)
-    //   if(value.date == this.props.date){
-    //     // alert('this is a repeat date'+index)
-    //     this.setState({value: value.value, note: value.note})
-    //   }
-    // });
-    // this.setState({prettyDate: getPrettyDate(this.props.date)});
+   // this.checkInputData();
+  }
+
+  checkInputData = () => {
+     Object.keys(this.props.log.values).map((value, index) =>{
+      // alert('index'+index+' '+value+' '+this.props.prettyDate)
+      if(value == this.props.prettyDate){
+        // alert('this is a repeat date'+index+" "+JSON.stringify(this.props.log.values[value].value))
+        this.setState({
+          value: this.props.log.values[value].value, 
+          note: this.props.log.values[value].note
+        })
+      }
+    });
+    this.setState({prettyDate: getPrettyDate(this.props.date)});
   }
 
 
   render() {
+
+  
+    let holderValue = '';
+    let holderNote = '';
+    
+    Object.keys(this.props.log.values).map((value, index) =>{
+    
+      if(value == this.props.prettyDate){
+          holderValue = this.props.log.values[value].value;
+          holderNote = this.props.log.values[value].note;
+        }
+
+    });
 
     let showDataView = <AButton
       color={this.props.log.color}
@@ -59,10 +79,19 @@ export default class LogItem extends Component<Props> {
 
         {Object.keys(this.props.log.values).map((value, index) =>{
             
-              return <View key={index}>
-                <Text style={{height:25}}  >{value}::Data Value: {this.props.log.values[value].value} / {this.props.log.values[value].note}</Text>
+              return <TouchableOpacity 
+                key={index} 
+                onPress={() => {
+                  let thisDate = new Date(value)//.getTime();
+                  let newVal = (thisDate.getTime() + thisDate.getTimezoneOffset() * 60000);
+                  // alert(thisDate+" "+value)
+                  this.props.setDate(newVal);
+
+                }}
+                style={{height:25, backgroundColor: this.props.log.color, borderRadius: 5, margin: 5,}} >
+                <Text  > {value} :: Value: {this.props.log.values[value].value} / Note: {this.props.log.values[value].note}</Text>
                 
-              </View>
+              </TouchableOpacity>
         })}
       </View>
     }
@@ -89,6 +118,7 @@ export default class LogItem extends Component<Props> {
             
             <Text>Numeric Value:</Text>      
              <TextInput
+              placeholder={holderValue}
               style={{height: 50, borderColor: 'gray', borderWidth: 1, borderRadius: 5}}
               keyboardType="numeric"
               onChangeText={(text) => this.setState({value: text})}
@@ -97,6 +127,7 @@ export default class LogItem extends Component<Props> {
 
             <Text style={{marginTop: 10}} >Note/Text:</Text>
             <TextInput
+                placeholder={holderNote}
                 style={{height: 50,width: 300,  borderColor: 'gray', borderWidth: 1, borderRadius: 5}}
                 onChangeText={(note) => this.setState({note})}
                 
