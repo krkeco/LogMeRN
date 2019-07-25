@@ -31,7 +31,14 @@ export default class LogItem extends Component<Props> {
 
 
   componentDidMount(){
-
+    // alert('lets check date')
+    // this.props.log.values.map((value, index) =>{
+    //   // alert('index'+index+' '+value.date+' '+this.props.date)
+    //   if(value.date == this.props.date){
+    //     // alert('this is a repeat date'+index)
+    //     this.setState({value: value.value, note: value.note})
+    //   }
+    // });
     // this.setState({prettyDate: getPrettyDate(this.props.date)});
   }
 
@@ -50,16 +57,13 @@ export default class LogItem extends Component<Props> {
       text="Hide Log Data"
       onPress={() => this.setState({showData: !this.state.showData})}/>
 
-        {this.props.log.data.map((data, index) =>{
-            let mNote = null;
-            if(data.note != null){
-              mNote = <Text>Note: {data.note}</Text>
-            }
+        {Object.keys(this.props.log.values).map((value, index) =>{
+            
               return <View key={index}>
-                <Text style={{height:25}}  >{getPrettyDate(data.date)} : Data Value {data.value}</Text>
-                {mNote}
+                <Text style={{height:25}}  >{value}::Data Value: {this.props.log.values[value].value} / {this.props.log.values[value].note}</Text>
+                
               </View>
-            })}
+        })}
       </View>
     }
 
@@ -76,7 +80,7 @@ export default class LogItem extends Component<Props> {
               onPress={() => {this.props.deleteLog(this.props.index)}}
               icon={faWindowClose}
               />
-            <Text style={{height: 30, margin: 5, fontSize:25}} >{this.props.log.name}</Text>
+            <Text style={{height: 30, margin: 5, fontSize:25}} >{this.props.log.label}</Text>
 
             </View>
       
@@ -101,7 +105,7 @@ export default class LogItem extends Component<Props> {
 
             <AButton            
               color={this.props.log.color}
-              onPress={() => {this.props.saveLogData(this.props.date, this.state.value, this.props.log)}}
+              onPress={() => {this.props.saveLogData(this.props.date, this.state.value,this.state.note, this.props.log)}}
               text="Save this Log"
               />
 

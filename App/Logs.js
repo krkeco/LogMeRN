@@ -20,12 +20,12 @@ import DialogInput from 'react-native-dialog-input';
 import AButton from './AButton.js';
 import LogItem from './LogItem.js';
 import GraphData from './GraphData.js';
+import SampleLine from './SampleLine.js';
 
  
 import {getPrettyDate} from './Utils.js';
 
 import { faAngleLeft, faBars, faChartBar, faCalendar, faSave, faWindowClose, faPlus } from '@fortawesome/free-solid-svg-icons'
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 
 
 import {
@@ -74,8 +74,9 @@ export default class Logs extends Component<Props> {
 
     let newLog = {
       "color":colour,
-      "name":title,
-      "data":[]
+      "label":title,
+      "values":{}
+      // "values":[]
     }
     return newLog;
   }
@@ -84,31 +85,73 @@ export default class Logs extends Component<Props> {
     alert('going to do something!')
   }
 
-  saveLogData = (date,value,log) => {
-    let repeatedLog = false;
-    if(log.data != null && log.data != undefined){
-        log.data.map((data,index) =>{
-          // alert(data.date + ' vs ' + date)
-          if(data.date == date){
-            alert('already had this date')
-            repeatedLog = true;
-            data.value = value;
-          }
-        })
-    }
-    if(repeatedLog == false){
-      log.data.push(this.newLogData(value,date));
-      log.data.sort((a,b) => a.date > b.date)
-    }
+  saveLogData = (date,value,note,log) => {
+
+    // let repeatedLog = false;
+    
+    // for(key in log.values){
+    //   alert('checking key'+key)
+    //   if(key == date){
+    //     // alert('this key is taken')
+    //   }else{
+    //     // alert('new key saved')
+    //   }
+    // }
+    //     log.values.map((entry,index) =>{
+    //       // alert(data.date + ' vs ' + date)
+    //       if(entry.date == date){
+    //         repeatedLog = true;
+    //         entry.value = value;
+    //         entry.note = note;
+    //         alert('Overwriting entry')
+    //       }
+    //     })
+    
+    // if(repeatedLog == false){
+      let key = getPrettyDate(date);
+      log.values[key] = this.newLogObject(value,note);
+      // log.values.sort((a,b) => a.date > b.date)
+    // }
+    alert(JSON.stringify(this.props.logBook))
     
     this.props.saveData();
+
+
+
+
+    // let repeatedLog = false;
+    // if(log.values != null && log.values != undefined){
+    //     log.values.map((entry,index) =>{
+    //       // alert(data.date + ' vs ' + date)
+    //       if(entry.date == date){
+    //         repeatedLog = true;
+    //         entry.value = value;
+    //         entry.note = note;
+    //         alert('Overwriting entry')
+    //       }
+    //     })
+    // }
+    // if(repeatedLog == false){
+    //   log.values.push(this.newLogEntry(value,date,note));
+    //   log.values.sort((a,b) => a.date > b.date)
+    // }
+    
+    // this.props.saveData();
   }
-  newLogData =  (value,date) => {
-    let newData = {
+  newLogEntry =  (value,date,note) => {
+    let newEntry = {
       "date": date,
       "value": value,
+      "note": note,
     }
-    return newData;
+    return newEntry;
+  } 
+  newLogObject =  (value,note) => {
+    let newEntry = {
+      "value": value,
+      "note": note,
+    }
+    return newEntry;
   }
 
   returnDate = (date) => {
@@ -127,36 +170,14 @@ export default class Logs extends Component<Props> {
               return <LogItem
                 date={this.state.date}
                 prettyDate={this.state.prettyDate}
-                saveLogData={(date,value,log) => {this.saveLogData(date,value,log)}}
+                saveLogData={(date,value,note,log) => {this.saveLogData(date,value,note,log)}}
                 deleteLog={(logIndex) => this.props.deleteLog(logIndex)}
                 key={index}
-                selectLog={() => this.selectLog}
                 log={log}
                 index={index}/>
         })}
         </View>
     }
-
-      // <View style={{  visibility: graphVisibility}}>
-      // <GraphData
-
-      // sampleLabels={[4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,]}
-      // sampleLogBook={[
-      // {
-      //   data: [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,],
-      //   name: 'name',
-      //   color: (opacity = 1) => `rgba(50, 250, 50, ${opacity})` // optional
-      // },
-      // {
-      //   data: [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,],
-      //   name: 'name',
-      //   color: (opacity = 1) => `rgba(50, 250, 50, ${opacity})` // optional
-      // },
-      // ]}
-      //   logBook={this.props.logBook}/>
-      //   </View>
-    
-
 
     let deleteButton = <AButton
       onPress={() => this.props.deleteBook()} 
@@ -180,9 +201,11 @@ export default class Logs extends Component<Props> {
     if(this.state.showGraph){
       viewGraphButton = null;
 
-      logs = <GraphData
-        goBack={()=>this.setState({showGraph: false})}
-        logBook={this.props.logBook}/>;
+      logs = <SampleLine
+        logBook={this.props.logBook}/>
+      // <GraphData
+      //   goBack={()=>this.setState({showGraph: false})}
+      //   logBook={this.props.logBook}/>;
 
     }
 

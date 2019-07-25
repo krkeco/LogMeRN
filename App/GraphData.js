@@ -8,17 +8,18 @@ import {
   Button,
   TextInput,
   Dimensions,
+  ActivityIndicator,
   StatusBar,
 } from 'react-native';
 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from 'react-native-chart-kit'
+// import {
+//   LineChart,
+//   BarChart,
+//   PieChart,
+//   ProgressChart,
+//   ContributionGraph,
+//   StackedBarChart
+// } from 'react-native-chart-kit'
 
 import AButton from './AButton.js';
 import {getPrettyDate} from './Utils.js';
@@ -26,13 +27,14 @@ import {getPrettyDate} from './Utils.js';
 import DatePicker from './DatePicker.js';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons'
 
+
+
+import {LineChart} from 'react-native-charts-wrapper';
+
 export default class GraphData extends Component<Props> {
  constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      prettyStart: "2019-07-01",
-      prettyEnd: "2019-07-07",
       startLabel: "2019-07-01",
       endLabel: "2019-07-07",
       totalLabels:7,
@@ -65,43 +67,6 @@ export default class GraphData extends Component<Props> {
     // this.compileGraphData();
    //8s
    // this.setSampleData();
-  }
-
-  setSampleData = () => {//31sx6 15x2+1
-    let data1= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
-    let data2= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
-    // let data3= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
-    // let data4= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
-    // let data5= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
-    // let data6= [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
-    let labels = [ 20, 45, 28, 80, 99, 43 ,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,4,3,2,5,1,];
-        
-    // let data2 = [];
-    // let data3 = [];
-    // let data4 = [];
-    // let data5 = [];
-    // let data6 = [];
-    // let labels = [];
-    // for(let x = 0; x < 50; x++){
-    //   data1.push(Math.random()*10)
-    //   data2.push(Math.random()*100)
-    //   data3.push(Math.random()*10)
-    //   data4.push(Math.random()*100)
-    //   data5.push(Math.random()*10)
-    //   data6.push(Math.random()*100)
-    //   labels.push(Math.random()*5)
-    // }
-    let logBook = []
-    logBook.push({data: data1})
-    logBook.push({data: data2})
-    // logBook.push({data: data3})
-    // logBook.push({data: data4})
-    // logBook.push({data: data5})
-    // logBook.push({data: data6})
-    this.setState({
-      logBook: logBook,
-      labels: labels
-    })
   }
 
   setLabelData = () => {
@@ -149,7 +114,7 @@ export default class GraphData extends Component<Props> {
           let startMills = new Date(this.state.startLabel).getTime();
           // alert(startMills)
           let endMills = new Date(this.state.endLabel).getTime();
-          log.data.map((data,i)=>{
+          log.values.map((data,i)=>{
             if(data.date >= startMills && data.date <= endMills){
               // alert("add time")
               dataInRange.push(data);
@@ -245,7 +210,16 @@ export default class GraphData extends Component<Props> {
     }
   }
   setEndDate = (date) => {
-    this.setState({endLabel: getPrettyDate(date)},this.setLabelData);
+    let d = new Date(date)
+    let sd = new Date(this.state.startLabel)
+    let newDate = getPrettyDate(date);
+
+    if(d.getDate() -7 < sd.getDate()){
+      let startD = d.getTime() - 7*24*60*60*1000;
+      this.setState({endLabel: getPrettyDate(date),startLabel: getPrettyDate(startD)},this.setLabelData);  
+    }else{
+      this.setState({endLabel: getPrettyDate(date)},this.setLabelData);
+    }
   }
 
 
@@ -268,56 +242,82 @@ export default class GraphData extends Component<Props> {
         />
     })}
     </View>
-        
         let view = <ScrollView>
-        <View style={{flexDirection: 'row'}}>
-        {startDateButton}
-        {endDateButton}
-        <AButton
-        onPress={() => this.props.goBack()}
-        text="Hide"
-        icon={faChartBar}/>
-        </View>
-        <Text>Graphing from: {this.state.startLabel} to {this.state.endLabel}</Text>
-
+          <View style={{flexDirection: 'row'}}>
+          {startDateButton}
+          {endDateButton}
+          <AButton
+          onPress={() => this.props.goBack()}
+          text="Hide"
+          icon={faChartBar}/>
+          </View>
+          <Text>Graphing from: {this.state.startLabel} to {this.state.endLabel}</Text>
+  
         <ScrollView
-          horizontal={true}
-          onLayout={this.onLayout.bind(this)}>
-          
-          {logRadios}
-        </ScrollView>
-        <ScrollView
-          horizontal={true}
-          onLayout={this.onLayout.bind(this)}>
-          
-          <LineChart
-            data={{
-              labels: this.state.labels,
-              datasets: this.state.logBook
-            }}
-            width={this.state.width} 
-            height={500}
-            yAxisLabel={''}
-            chartConfig={{
-              backgroundColor: '#ddd',
-              backgroundGradientFrom: '#ccc',
-              backgroundGradientTo: '#eee',
-              decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(15, 15, 15, ${opacity})`,
-              style: {
-                borderRadius: 8
-              }
-            }}
+            horizontal={true}
+            onLayout={this.onLayout.bind(this)}>
             
-            style={{
-              marginVertical: 8,
-              borderRadius: 16
-            }}
-          />
-        </ScrollView>
-        
-      </ScrollView>
+         <View style={{flex: 1, width: 1000, height: 500}}>
+        <View style={{flex: 1}}>
+          <LineChart style={{flex: 1}}
+            data={{dataSets:[
+              {label: "demo", values: [{x:0,y:0, marker: "hello there"},{y: 1,x:0},{y: 1,x:3, marker: "hello there"}, {y: 2,x:4}, {y: 5,x:6},{y: 1,x:7}, ]},
 
+              ]}}
+          />
+        </View>
+      </View>
+      </ScrollView>
+      </ScrollView>
+        //   view = <ScrollView>
+          // <View style={{flexDirection: 'row'}}>
+          // {startDateButton}
+          // {endDateButton}
+          // <AButton
+          // onPress={() => this.props.goBack()}
+          // text="Hide"
+          // icon={faChartBar}/>
+          // </View>
+          // <Text>Graphing from: {this.state.startLabel} to {this.state.endLabel}</Text>
+  
+        //   <ScrollView
+        //     horizontal={true}
+        //     onLayout={this.onLayout.bind(this)}>
+            
+        //     {logRadios}
+        //   </ScrollView>
+          // <ScrollView
+          //   horizontal={true}
+          //   onLayout={this.onLayout.bind(this)}>
+            
+        //     <LineChart
+        //       data={{
+        //         labels: this.state.labels,
+        //         datasets: this.state.logBook
+        //       }}
+        //       width={this.state.width} 
+        //       height={500}
+        //       yAxisLabel={''}
+        //       chartConfig={{
+        //         backgroundColor: '#ddd',
+        //         backgroundGradientFrom: '#ccc',
+        //         backgroundGradientTo: '#eee',
+        //         decimalPlaces: 0, // optional, defaults to 2dp
+        //         color: (opacity = 1) => `rgba(15, 15, 15, ${opacity})`,
+        //         style: {
+        //           borderRadius: 8
+        //         }
+        //       }}
+              
+        //       style={{
+        //         marginVertical: 8,
+        //         borderRadius: 16
+        //       }}
+        //     />
+        //   </ScrollView>
+          
+        // </ScrollView>
+        
     return(
       <View>
       {view}
