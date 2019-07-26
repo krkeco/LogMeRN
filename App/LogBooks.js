@@ -36,7 +36,7 @@ export default class LogBooks extends Component<Props> {
     if(this.props.books != null){
         booksView = this.props.books.map((book,index) => {
           return <TouchableOpacity 
-            style={{width: 300, height: 80,marginTop:20, alignItems: 'center',backgroundColor: '#90caf9', borderRadius: 10}}
+            style={{width: 300, height: 80,marginBottom:20, alignItems: 'center',backgroundColor: '#90caf9', borderRadius: 10}}
             key={index}
             onPress={() => this.props.selectBook(index)} >
             <Text style={{fontSize: 36, marginTop:10}}>{book.name}</Text>
@@ -61,15 +61,17 @@ export default class LogBooks extends Component<Props> {
     </DialogInput>
 
     return (
-      <View style={{alignItems:'center'}}>
+      <ScrollView>
+        <View style={{alignItems:'center',paddingTop:20}}>
 
-        {booksView}
+          {booksView}
 
-        {addButton}
+          {addButton}
 
-        {newLogModal}
+          {newLogModal}
 
-      </View>
+        </View>
+      </ScrollView>      
     );
 
   }

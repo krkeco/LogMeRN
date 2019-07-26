@@ -52,7 +52,7 @@ export default class LogItem extends Component<Props> {
         })
       }
     });
-    this.setState({prettyDate: getPrettyDate(this.props.date)});
+    this.setState({prettyDate: this.props.prettyDate});
   }
 
 
@@ -179,7 +179,7 @@ export default class LogItem extends Component<Props> {
               <View style={{paddingTop:20}}>
               <AButton            
                 color={this.props.log.color}
-                onPress={() => {this.props.saveLogData(this.props.date, this.state.value,this.state.note, this.props.log)}}
+                onPress={() => {this.props.saveLogData(this.props.prettyDate, this.state.value,this.state.note, this.props.log)}}
                 icon={faSave}
                 />
               </View>

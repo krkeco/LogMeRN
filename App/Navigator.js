@@ -17,22 +17,6 @@ import Menu from './Menu.js';
 
 const BOOKS_KEY = "books";
 
-//logbook
-//log
-//data
-
-let data = [{"date":20190707,"value":2},{"date":20190708,"value":4}]
-
-let log = {"name":"patience","data":data}
-
-let ledger = {
-  "name":"birthdays",
-  logs: [
-    log
-  ]
-}
-
-
 export default class Navigator extends Component<Props> {
  constructor(props) {
     super(props);

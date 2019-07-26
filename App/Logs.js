@@ -83,20 +83,12 @@ export default class Logs extends Component<Props> {
 
   saveLogData = (date,value,note,log) => {
 
-    let key = getPrettyDate(date);
+    let key = date;
     log.values[key] = this.newLogObject(value,note);
     
     this.props.saveData();
 
   }
-  // newLogEntry =  (value,date,note) => {
-  //   let newEntry = {
-  //     "date": date,
-  //     "value": value,
-  //     "note": note,
-  //   }
-  //   return newEntry;
-  // } 
   newLogObject =  (value,note) => {
     let newEntry = {
       "value": value,
@@ -125,7 +117,6 @@ export default class Logs extends Component<Props> {
               return <LogItem
                 setColor={(color) => this.setColor(color,log)}
                 setDate={(date)=>{this.returnDate(date)}}
-                date={this.state.date}
                 prettyDate={this.state.prettyDate}
                 saveLogData={(date,value,note,log) => {this.saveLogData(date,value,note,log)}}
                 deleteLog={(logIndex) => this.props.deleteLog(logIndex)}
@@ -149,22 +140,6 @@ export default class Logs extends Component<Props> {
       let dateButton = <DatePicker
         returnDate={this.returnDate}/>
 
-    let viewGraphButton = <AButton
-      onPress={() => this.setState({showGraph: true})}
-      icon={faChartBar}/>
-
-    if(this.state.showGraph){
-      viewGraphButton = null;
-
-      logs = <SampleLine
-        goBack={()=>this.setState({showGraph:false})}
-        logBook={this.props.logBook}/>
-      // <GraphData
-      //   goBack={()=>this.setState({showGraph: false})}
-      //   logBook={this.props.logBook}/>;
-
-    }
-
 
     let newLogModal =
     <DialogInput isDialogVisible={this.state.newLog}
@@ -175,8 +150,10 @@ export default class Logs extends Component<Props> {
       closeDialog={ () => {this.setState({newLog: false})}}>
     </DialogInput>;
 
-   
 
+    let viewGraphButton = <AButton
+      onPress={() => this.setState({showGraph: true})}
+      icon={faChartBar}/>
 
     let logBookMenu =
       <View
@@ -205,6 +182,17 @@ export default class Logs extends Component<Props> {
       
       </View>;
     }
+    if(this.state.showGraph){
+      
+      logBookMenu = null;
+      
+
+      logs = <SampleLine
+        goBack={()=>this.setState({showGraph:false})}
+        logBook={this.props.logBook}/>
+     
+    }
+
 
     return (
       <ScrollView>
