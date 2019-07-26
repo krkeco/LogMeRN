@@ -125,7 +125,25 @@ export default class LineChartScreen extends React.Component {
         
     }
 
-      dataSets.push({values: graphLogValues, label: log.label})
+      dataSets.push({
+        values: graphLogValues, 
+        label: log.label,
+        config: {
+                lineWidth: 2,
+                drawValues: true,
+                drawCircles: true,
+                highlightColor: processColor(log.color),
+                color: processColor(log.color),
+                // drawFilled: false,
+                // fillColor: processColor('blue'),
+                // fillAlpha: 60,
+                // highlightEnabled: false,
+                // dashedLine: {
+                //   lineLength: 20,
+                //   spaceLength: 20
+                // }
+        }
+      });
 
     });
 
@@ -205,7 +223,7 @@ export default class LineChartScreen extends React.Component {
     if (entry == null) {
       this.setState({...this.state, selectedEntry: null})
     } else {
-      this.setState({...this.state, selectedEntry: entry.data.label +': '+ entry.data.note})
+      this.setState({...this.state, selectedEntry: entry.data.label +': '+ entry.data.note}) //JSON.stringify(entry)}); //
     }
 
     console.log(event.nativeEvent)

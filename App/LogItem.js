@@ -7,6 +7,7 @@ import {
   Text,
   Button,
   TextInput,
+  Modal,
   Picker,
   StatusBar,
 } from 'react-native';
@@ -14,8 +15,10 @@ import {
 import AButton from './AButton.js';
 import {getPrettyDate} from './Utils.js';
 
-import { faAngleLeft, faBars, faChartBar, faCalendar, faSave, faWindowClose, faPlus } from '@fortawesome/free-solid-svg-icons'
 
+
+import { faAngleLeft, faPalette, faBars, faChartBar, faCalendar, faSave, faWindowClose, faPlus } from '@fortawesome/free-solid-svg-icons'
+import ColorPicker from './ColorPicker'
 
 export default class LogItem extends Component<Props> {
  constructor(props) {
@@ -26,6 +29,9 @@ export default class LogItem extends Component<Props> {
       prettyDate: '',
       showData: false,
       isDateTimePickerVisible: false,
+      viewColorModal: false,
+      color: '#fff',
+      floatColor: '#fff',
     }
   }
 
@@ -50,7 +56,26 @@ export default class LogItem extends Component<Props> {
   }
 
 
+  onColorChange = (color) =>{
+    this.setState({ color: color })
+    // alert(color)
+  }
+
+  setColor = () => {
+    this.props.setColor(this.state.color);
+  }
+
   render() {
+
+    let colorModal = 
+     <ColorPicker
+     save={this.setColor}
+     color={this.props.log.color}
+     floatColor={this.state.color}
+     onColorChange={this.onColorChange}
+     viewColorModal={this.state.viewColorModal}
+     toggle={()=>{this.setState({viewColorModal: !this.state.viewColorModal});}}
+     />
 
   
     let holderValue = '';
@@ -110,6 +135,15 @@ export default class LogItem extends Component<Props> {
               icon={faWindowClose}
               />
             <Text style={{height: 30, margin: 5, fontSize:25}} >{this.props.log.label}</Text>
+            
+
+            {colorModal}
+            <AButton
+              icon={faPalette}
+              color={this.props.log.color}
+              text="change color"
+              onPress={()=>this.setState({viewColorModal: !this.state.viewColorModal})}/>
+
 
             </View>
       

@@ -112,6 +112,10 @@ export default class Logs extends Component<Props> {
 
   }
 
+  setColor = (color,log) => {
+    log.color = color;
+    this.props.saveData();
+  }
 
   render() {
     // let logs = null;
@@ -119,6 +123,7 @@ export default class Logs extends Component<Props> {
         logs = <View >
         {this.props.logBook.logs.map((log,index) => {
               return <LogItem
+                setColor={(color) => this.setColor(color,log)}
                 setDate={(date)=>{this.returnDate(date)}}
                 date={this.state.date}
                 prettyDate={this.state.prettyDate}
