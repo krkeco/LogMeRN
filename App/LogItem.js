@@ -17,14 +17,14 @@ import {getPrettyDate} from './Utils.js';
 
 
 
-import { faAngleLeft, faPalette, faBars, faChartBar, faCalendar, faSave, faWindowClose, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faAngleUp, faAngleDown, faPalette, faSave, faWindowClose } from '@fortawesome/free-solid-svg-icons'
 import ColorPicker from './ColorPicker'
 
 export default class LogItem extends Component<Props> {
  constructor(props) {
     super(props);
     this.state = {
-      value: 0,
+      value: '',
       note: '',
       prettyDate: '',
       showData: false,
@@ -90,16 +90,17 @@ export default class LogItem extends Component<Props> {
 
     });
 
+    
     let showDataView = <AButton
       color={this.props.log.color}
-      text="Show Log Data"
+      icon={faAngleDown}
       onPress={() => this.setState({showData: !this.state.showData})}/>
-
+    
     if(this.state.showData){
-      showDataView = <View>
+      showDataView = <View style={{alignItems:'center'}}>
       <AButton
       color={this.props.log.color}
-      text="Hide Log Data"
+      icon={faAngleUp}
       onPress={() => this.setState({showData: !this.state.showData})}/>
 
         {Object.keys(this.props.log.values).map((value, index) =>{
@@ -113,8 +114,9 @@ export default class LogItem extends Component<Props> {
                   this.props.setDate(newVal);
 
                 }}
-                style={{height:25, backgroundColor: this.props.log.color, borderRadius: 5, margin: 5,}} >
-                <Text  > {value} :: Value: {this.props.log.values[value].value} / Note: {this.props.log.values[value].note}</Text>
+                style={{ width: 300, backgroundColor: this.props.log.color, borderRadius: 5, margin: 5, alignItems:'center'}} >
+                <Text  > {value} :: Value: {this.props.log.values[value].value}</Text>
+                <Text> Note: {this.props.log.values[value].note}</Text>
                 
               </TouchableOpacity>
         })}
@@ -122,7 +124,7 @@ export default class LogItem extends Component<Props> {
     }
 
     return (
-      <View style={{flexDirection: 'column', backgroundColor: '#dcdcdc', margin: 5}} >
+      <View style={{flexDirection: 'column', backgroundColor: '#bbdefb', margin: 5, borderRadius: 5}} >
         <View >
           
           <View
@@ -134,50 +136,61 @@ export default class LogItem extends Component<Props> {
               onPress={() => {this.props.deleteLog(this.props.index)}}
               icon={faWindowClose}
               />
-            <Text style={{height: 30, margin: 5, fontSize:25}} >{this.props.log.label}</Text>
             
-
             {colorModal}
+            
             <AButton
               icon={faPalette}
               color={this.props.log.color}
-              text="change color"
               onPress={()=>this.setState({viewColorModal: !this.state.viewColorModal})}/>
+            
+            <Text style={{height: 30, margin: 5, fontSize:25}} >{this.props.log.label}</Text>
+            
 
+
+              <Text style={{marginTop:22}}>log of: {this.props.prettyDate}</Text>
 
             </View>
-      
-            <Text>{this.props.prettyDate}</Text>
-          
+            <View style={{flexDirection:'row',justifyContent: 'center',flex:1, alignItems: 'center'}}>
+        
             
-            <Text>Numeric Value:</Text>      
-             <TextInput
-              placeholder={holderValue}
-              style={{height: 50, borderColor: 'gray', borderWidth: 1, borderRadius: 5}}
-              keyboardType="numeric"
-              onChangeText={(text) => this.setState({value: text})}
-              value={this.state.value}
-            />
-
-            <Text style={{marginTop: 10}} >Note/Text:</Text>
-            <TextInput
-                placeholder={holderNote}
-                style={{height: 50,width: 300,  borderColor: 'gray', borderWidth: 1, borderRadius: 5}}
-                onChangeText={(note) => this.setState({note})}
-                
-                value={this.state.note}
+              <View>
+              <Text>Value:</Text>      
+               <TextInput
+                placeholder={holderValue}
+                style={{height: 35,width:50, borderColor: 'gray', borderWidth: 1, borderRadius: 5}}
+                keyboardType="numeric"
+                onChangeText={(text) => this.setState({value: text})}
+                value={this.state.value}
               />
+              </View>
 
-            <AButton            
-              color={this.props.log.color}
-              onPress={() => {this.props.saveLogData(this.props.date, this.state.value,this.state.note, this.props.log)}}
-              text="Save this Log"
-              />
+              <View style={{marginLeft:10}}>
+              <Text >Note/Text:</Text>
+              <TextInput
+                  placeholder={holderNote}
+                  style={{height: 35,width: 200,  borderColor: 'gray', borderWidth: 1, borderRadius: 5}}
+                  onChangeText={(note) => this.setState({note})}
+                  
+                  value={this.state.note}
+                />
+                </View>
+
+              <View style={{paddingTop:20}}>
+              <AButton            
+                color={this.props.log.color}
+                onPress={() => {this.props.saveLogData(this.props.date, this.state.value,this.state.note, this.props.log)}}
+                icon={faSave}
+                />
+              </View>
+              
+              </View>
 
         </View>
 
-          
-        {showDataView}
+          <View style={{alignItems: 'center'}}>
+            {showDataView}
+          </View>
 
       </View>
     );

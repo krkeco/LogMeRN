@@ -143,7 +143,6 @@ export default class Logs extends Component<Props> {
 
     let addButton = <AButton
       onPress={() => this.setState({newLog: true})} 
-      text="Log"
       icon={faPlus}
       />
 
@@ -152,7 +151,6 @@ export default class Logs extends Component<Props> {
 
     let viewGraphButton = <AButton
       onPress={() => this.setState({showGraph: true})}
-      text="Show"
       icon={faChartBar}/>
 
     if(this.state.showGraph){
@@ -182,14 +180,15 @@ export default class Logs extends Component<Props> {
 
     let logBookMenu =
       <View
-        style={{flexDirection:'row',flex:1}}>
+        style={{flexDirection:'row',flex:1, justifyContent:'space-between'}}>
         
+        <View style={{flexDirection:'row'}}>
+          {addButton}
 
-        {addButton}
+          {newLogModal}
 
-        {newLogModal}
-
-        {dateButton}
+          {dateButton}
+        </View>
 
         {viewGraphButton}
       
@@ -199,25 +198,13 @@ export default class Logs extends Component<Props> {
       logBookMenu =
             <View
         style={{flexDirection:'row',flex:1}}>
-        {deleteButton}
-
+        
         {addButton}
 
         {newLogModal}
       
       </View>;
     }
-
-    if(this.state.showGraph){
-      logBookMenu =
-      <View
-        style={{flexDirection:'row',flex:1}}>
-
-        {viewGraphButton}
-      
-      </View>;
-    }
-
 
     return (
       <ScrollView>
@@ -226,7 +213,7 @@ export default class Logs extends Component<Props> {
             icon={faAngleLeft}
             onPress={this.props.goBack}/>
 
-          <Text style={{fontSize: 32, flex:1}} >{this.props.logBook.name}</Text>
+          <Text style={{fontSize: 32, flex:1, marginLeft: 5}} >{this.props.logBook.name}</Text>
           {deleteButton}
         </View>
         

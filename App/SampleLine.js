@@ -13,7 +13,7 @@ import {LineChart} from 'react-native-charts-wrapper';
 import {getPrettyDate} from './Utils.js';
 import AButton from './AButton.js';
 import DatePicker from './DatePicker.js';
-import { faChartBar } from '@fortawesome/free-solid-svg-icons'
+import { faChartBar, faClipboardList,  } from '@fortawesome/free-solid-svg-icons'
 
 
 export default class LineChartScreen extends React.Component {
@@ -43,16 +43,19 @@ export default class LineChartScreen extends React.Component {
   }
 
   componentDidMount() {
-
+    let dataSets = this.setGraphData();
     this.setState(
       update(this.state, {
         data: {
           $set: {
-            dataSets: this.setGraphData(),
+            dataSets: dataSets,
           }
         }
       })
     );
+
+
+    this.setState({masterLogBook: dataSets})
 
     //default data example:
     // this.setState(
@@ -220,45 +223,51 @@ export default class LineChartScreen extends React.Component {
 
   handleSelect(event) {
     let entry = event.nativeEvent
-    if (entry == null) {
-      this.setState({...this.state, selectedEntry: null})
-    } else {
-      this.setState({...this.state, selectedEntry: entry.data.label +': '+ entry.data.note}) //JSON.stringify(entry)}); //
+    if(entry.data.label != undefined){
+      if (entry == null) {
+        this.setState({selectedEntry: null})
+      } else {
+        this.setState({selectedEntry: entry.data.label +': '+ entry.data.note}) //JSON.stringify(entry)}); //
+      }
     }
-
     console.log(event.nativeEvent)
   }
 
   render() {
 
 
-    let startDateButton = <DatePicker text="Select Start Date" returnDate={this.setStartDate}/>
-    let endDateButton = <DatePicker text="Select End Date" returnDate={this.setEndDate}/>
+    let startDateButton = <DatePicker text="Start" returnDate={this.setStartDate}/>
+    let endDateButton = <DatePicker text="End" returnDate={this.setEndDate}/>
 
-
-
-    // let logRadios = <View style={{flexDirection:'row'}} >
-    // {this.state.masterLogBook.map((log,index) => {
-      
-    //   return <AButton 
-    //     onPress={()=> this.filter(index)}
-    //     key={index}
-    //     color={log.colorCode}
-    //     text={log.name}
-    //     />
-    // })}
-    // </View>
-
+    let logRadios = null
+    // if(this.state.masterLogBook != undefined){
+    //     logRadios = <View style={{flexDirection:'row'}} >
+    //     {this.state.masterLogBook.map((log,index) => {
+          
+    //       return <AButton 
+    //         onPress={()=> this.filter(index)}
+    //         key={index}
+    //         color={log.colorCode}
+    //         text={log.label}
+    //         />
+    //     })}
+    //     </View>
+    // }
     return (
       <ScrollView>
-        <View style={{flexDirection: 'row'}}>
-          {startDateButton}
-          {endDateButton}
+        <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
+          <View style={{flexDirection: 'row'}}>
+            {startDateButton}
+            {endDateButton}
+          </View>
+        
           <AButton
             onPress={() => this.props.goBack()}
-            text="Hide"
-            icon={faChartBar}/>
+            icon={faClipboardList}/>
+
         </View>
+
+        {logRadios}
         <Text>Graphing from: {this.state.startLabel} to {this.state.endLabel}</Text>
           <Text> {this.state.selectedEntry}</Text>
   

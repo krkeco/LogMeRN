@@ -102,7 +102,7 @@ export default class Navigator extends Component<Props> {
        
         {text: 'Confirmed!', onPress: () => this.deleteBook()}
       ],
-        {cancelable: false},
+        {cancelable: true},
     );
 
   }

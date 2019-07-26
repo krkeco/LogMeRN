@@ -36,9 +36,10 @@ export default class LogBooks extends Component<Props> {
     if(this.props.books != null){
         booksView = this.props.books.map((book,index) => {
           return <TouchableOpacity 
+            style={{width: 300, height: 80,marginTop:20, alignItems: 'center',backgroundColor: '#90caf9', borderRadius: 10}}
             key={index}
             onPress={() => this.props.selectBook(index)} >
-            <Text style={{fontSize: 18, marginTop:10}}>book {book.name}</Text>
+            <Text style={{fontSize: 36, marginTop:10}}>{book.name}</Text>
             {book.logs.map((log, index) => {
               return <Text key={index} style={{marginLeft: 10}}>{log.name}</Text>
             })}
@@ -47,7 +48,6 @@ export default class LogBooks extends Component<Props> {
     }
     let addButton = <AButton
     onPress={()=>this.setState({newLogBook: true})} 
-    text="LogBook"
     icon={faPlus}
     />
 
@@ -61,8 +61,7 @@ export default class LogBooks extends Component<Props> {
     </DialogInput>
 
     return (
-      <View>
-        <Text style={{fontSize: 20}}>LogBooks:</Text>
+      <View style={{alignItems:'center'}}>
 
         {booksView}
 

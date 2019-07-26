@@ -28,7 +28,7 @@ export default class AButton extends Component<Props> {
   }
 
   render() {
-    let color = '#5f9ea0';
+    let color = '#bbdefb';
     if(this.props.color != undefined){
       color = this.props.color;
     }

@@ -42,7 +42,7 @@ export default class DatePicker extends Component<Props> {
 
 
   render() {
-    let text = "Select Date";
+    let text = "";
     if(this.props.text != null){
       text = this.props.text;
     }
