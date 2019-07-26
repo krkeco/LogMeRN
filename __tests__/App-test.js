@@ -7,6 +7,7 @@ import React from 'react';
 import App from '../App';
 import AButton from '../App/AButton'
 import LogItem from '../App/LogItem'
+import Logs from '../App/Logs'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
@@ -35,6 +36,11 @@ test('log entry values', () => {
 });
 test('log color', () => {
   expect(log.color).toBe("#fff");
+});
+
+let newLog = Logs.newLog('sampleLog');
+test('log color', () => {
+  expect(newLog.label).toBe("sampleLog");
 });
 
 
