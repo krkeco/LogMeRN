@@ -23,7 +23,9 @@ export default class LineChartScreen extends React.Component {
 
     this.state = {
       data: {},
-      masterLogBook: {},
+      masterLogBook: [],
+      filters: [],
+
       startLabel: "2019-07-01",
       endLabel: "2019-07-31",
 
@@ -87,9 +89,10 @@ export default class LineChartScreen extends React.Component {
     // this.refs.chart.setDataAndLockIndex({
     //   datasSets: this.setGraphData()
     // });
-    let dataSets = this.setGraphData();
+    let dataSets = this.getGraphData();
 
     this.setState({masterLogBook: dataSets},()=>{
+      // alert(JSON.stringify(this.state.masterLogBook))
     this.setState(
       update(this.state, {
         data: {
@@ -103,7 +106,7 @@ export default class LineChartScreen extends React.Component {
   }
 
 
-  setGraphData = () => {
+  getGraphData = () => {
     let startMill = new Date(this.state.startLabel);
     let endMill = new Date(this.state.endLabel);
 
@@ -140,6 +143,7 @@ export default class LineChartScreen extends React.Component {
       dataSets.push({
         values: graphLogValues, 
         label: log.label,
+        color: log.color,
         config: {
                 lineWidth: 2,
                 drawValues: true,
@@ -242,6 +246,46 @@ export default class LineChartScreen extends React.Component {
     console.log(event.nativeEvent)
   }
 
+
+  filter = (index) => {
+    let newFilters = [];
+    this.state.filters.map((filter,index) => {
+      newFilters.push(filter)
+    })
+
+    if(newFilters.indexOf(index) > -1){
+      newFilters.splice(this.state.filters.indexOf(index),1);
+    }else{
+      newFilters.push(index);
+
+    }
+
+    // this.setState({filters: newFilters});
+
+    let floatArray = [];
+    this.state.masterLogBook.map((log,index) => {
+      if(newFilters.indexOf(index) == -1){
+        floatArray.push(log);
+        // alert('added '+index+' to logbook')
+      }
+    })
+
+    if(floatArray.length != 0){
+      // this.setState({logBook: floatArray});
+      this.setState({
+          data: {
+              dataSets: floatArray,
+            },
+          filters: newFilters
+        }
+      );
+
+    }else{
+      alert('You must have at least 1 log to graph!')
+    }
+  }
+
+
   render() {
 
 
@@ -249,19 +293,19 @@ export default class LineChartScreen extends React.Component {
     let endDateButton = <DatePicker text="End" returnDate={this.setEndDate}/>
 
     let logRadios = null
-    // if(this.state.masterLogBook != undefined){
-    //     logRadios = <View style={{flexDirection:'row'}} >
-    //     {this.state.masterLogBook.map((log,index) => {
+    if(this.state.masterLogBook != undefined){
+        logRadios = <View style={{flexDirection:'row'}} >
+        {this.state.masterLogBook.map((log,index) => {
           
-    //       return <AButton 
-    //         onPress={()=> this.filter(index)}
-    //         key={index}
-    //         color={log.colorCode}
-    //         text={log.label}
-    //         />
-    //     })}
-    //     </View>
-    // }
+          return <AButton 
+            onPress={()=> this.filter(index)}
+            key={index}
+            color={log.color}
+            text={log.label}
+            />
+        })}
+        </View>
+    }
     return (
       <ScrollView>
         <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
@@ -277,6 +321,7 @@ export default class LineChartScreen extends React.Component {
         </View>
 
         {logRadios}
+        <Text>filters:{this.state.filters.toString()}</Text>
         <Text>Graphing from: {this.state.startLabel} to {this.state.endLabel}</Text>
           <Text> {this.state.selectedEntry}</Text>
   
