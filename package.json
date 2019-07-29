@@ -34,6 +34,7 @@
   },
   "jest": {
     "preset": "react-native",
+    "automock": false,
      "setupFiles": ["./jestSetupFile.js"]
   }
 }

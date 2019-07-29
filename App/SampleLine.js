@@ -43,19 +43,26 @@ export default class LineChartScreen extends React.Component {
   }
 
   componentDidMount() {
-    let dataSets = this.setGraphData();
-    this.setState(
-      update(this.state, {
-        data: {
-          $set: {
-            dataSets: dataSets,
-          }
-        }
-      })
-    );
+    // let dataSets = this.setGraphData();
+    // this.setState(
+    //   update(this.state, {
+    //     data: {
+    //       $set: {
+    //         dataSets: dataSets,
+    //       }
+    //     }
+    //   })
+    // );
 
+    let d = new Date().getTime();
+    let endD = getPrettyDate(d);
+    let sD = d-1000*60*60*24*7
+    let startD = getPrettyDate(sD);
 
-    this.setState({masterLogBook: dataSets})
+    this.setState({
+      startLabel: startD,
+      endLabel: endD,
+    },this.updateGraphData )
 
     //default data example:
     // this.setState(
@@ -80,17 +87,19 @@ export default class LineChartScreen extends React.Component {
     // this.refs.chart.setDataAndLockIndex({
     //   datasSets: this.setGraphData()
     // });
+    let dataSets = this.setGraphData();
 
-
+    this.setState({masterLogBook: dataSets},()=>{
     this.setState(
       update(this.state, {
         data: {
           $set: {
-            dataSets: this.setGraphData(),
+            dataSets: dataSets,
           }
         }
       })
     );
+      })
   }
 
 
@@ -99,7 +108,7 @@ export default class LineChartScreen extends React.Component {
     let endMill = new Date(this.state.endLabel);
 
     let totalLabels = Math.abs(endMill.getUTCDate() - startMill.getUTCDate() +1);
-    
+    // alert('from '+this.state.startLabel+ ' to '+ this.state.endLabel +'total labels:'+ totalLabels)
     let dataSets = [];
 
     this.props.logBook.logs.map((log, index) => {
@@ -203,9 +212,9 @@ export default class LineChartScreen extends React.Component {
 
     if(d.getDate() +7 > ed.getDate()){
       let endD = d.getTime() + 7*24*60*60*1000;
-      this.setState({endLabel: getPrettyDate(endD),startLabel: getPrettyDate(date)},this.setLabelData);  
+      this.setState({endLabel: getPrettyDate(endD),startLabel: getPrettyDate(date)},this.updateGraphData);  
     }else{
-      this.setState({startLabel: getPrettyDate(date)},()=>{this.updateGraphData()});
+      this.setState({startLabel: getPrettyDate(date)},this.updateGraphData);
     }
   }
   setEndDate = (date) => {
@@ -215,9 +224,9 @@ export default class LineChartScreen extends React.Component {
 
     if(d.getDate() -7 < sd.getDate()){
       let startD = d.getTime() - 7*24*60*60*1000;
-      this.setState({endLabel: getPrettyDate(date),startLabel: getPrettyDate(startD)},this.setLabelData);  
+      this.setState({endLabel: getPrettyDate(date),startLabel: getPrettyDate(startD)},this.updateGraphData);  
     }else{
-      this.setState({endLabel: getPrettyDate(date)},()=>{this.updateGraphData()});
+      this.setState({endLabel: getPrettyDate(date)},this.updateGraphData);
     }
   }
 

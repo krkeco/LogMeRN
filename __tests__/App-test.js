@@ -8,6 +8,7 @@ import App from '../App';
 import AButton from '../App/AButton'
 import LogItem from '../App/LogItem'
 import Logs from '../App/Logs'
+import SampleLine from '../App/SampleLine'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
@@ -38,19 +39,13 @@ test('log color', () => {
   expect(log.color).toBe("#fff");
 });
 
-let newLog = Logs.newLog('sampleLog');
-test('log color', () => {
-  expect(newLog.label).toBe("sampleLog");
-});
-
-
+//sample logbook holder
 let ledger = {
   "name":"birthdays",
   logs: [
     log
   ]
 }
-
 test('ledger entry values', () => {
   expect(ledger.name).toBe("birthdays");
 });
@@ -79,7 +74,9 @@ it('abutton renders correctly', () => {
 
 // it('renders correctly', () => {
 //   const tree = renderer.create(
-//     <AButton />
+//     <SampleLine
+//         goBack={()=>this.setState({showGraph:false})}
+//         logBook={ledger}/>
 //     ).toJSON();
 //   expect(tree).toMatchSnapshot();
 // });

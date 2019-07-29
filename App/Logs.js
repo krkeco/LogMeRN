@@ -46,13 +46,14 @@ export default class Logs extends Component<Props> {
       deleteBook: false,
       showGraph: false,
       newLogText: 'log',
-      date: 1562482800000,
+      // date: 1562482800000,
       prettyDate: '2019-07-07',
     }
   }
 
   componentDidMount(){
-    
+    let d = new Date().getTime();
+    this.setState({prettyDate: getPrettyDate(d)});
   }
 
   addLog = (title) => {

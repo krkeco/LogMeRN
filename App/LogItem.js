@@ -179,7 +179,10 @@ export default class LogItem extends Component<Props> {
               <View style={{paddingTop:20}}>
               <AButton            
                 color={this.props.log.color}
-                onPress={() => {this.props.saveLogData(this.props.prettyDate, this.state.value,this.state.note, this.props.log)}}
+                onPress={() => {
+                  this.props.saveLogData(this.props.prettyDate, this.state.value,this.state.note, this.props.log);
+                  this.setState({value: "", note: ""})
+                }}
                 icon={faSave}
                 />
               </View>
