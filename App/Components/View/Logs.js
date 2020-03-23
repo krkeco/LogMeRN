@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-} from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 
 import DialogInput from 'react-native-dialog-input';
 
@@ -206,7 +201,7 @@ export default class Logs extends Component<Props> {
     }
 
     return (
-    <View style={{height: '100%'}} >
+      <View style={{ height: '100%' }}>
         <View style={{ flexDirection: 'row' }}>
           <Button icon={faAngleLeft} onPress={this.props.goBack} />
 
@@ -215,12 +210,8 @@ export default class Logs extends Component<Props> {
           </Text>
           {deleteButton}
         </View>
-        <View style={{flexDirection:'row'}}>
-        {logBookMenu}
-        </View>
-      <ScrollView>
-        {logs}
-      </ScrollView>
+        <View style={{ flexDirection: 'row' }}>{logBookMenu}</View>
+        <ScrollView>{logs}</ScrollView>
       </View>
     );
   }

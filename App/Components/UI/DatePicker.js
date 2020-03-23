@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  StatusBar,
-} from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
 
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 

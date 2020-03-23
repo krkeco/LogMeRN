@@ -10,7 +10,7 @@ import {
 import DialogInput from 'react-native-dialog-input';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import {newBook} from '../../Utils/Book'
+import { newBook } from '../../Utils/Book';
 
 import Button from '../UI/Button.js';
 

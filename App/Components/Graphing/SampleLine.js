@@ -45,7 +45,6 @@ export default class LineChartScreen extends React.Component {
   }
 
   componentDidMount() {
-
     let d = new Date().getTime();
     let endD = getPrettyDate(d);
     let sD = d - 1000 * 60 * 60 * 24 * 7;
@@ -58,7 +57,6 @@ export default class LineChartScreen extends React.Component {
       },
       this.updateGraphData,
     );
-
   }
 
   updateGraphData = () => {
@@ -163,13 +161,12 @@ export default class LineChartScreen extends React.Component {
   handleSelect = (event) => {
     let entry = event.nativeEvent;
     if (entry.data.label != null) {
-        this.setState({
-          selectedEntry: entry.data.label + ': ' + entry.data.note,
-        }); //JSON.stringify(entry)}); //
-      
+      this.setState({
+        selectedEntry: entry.data.label + ': ' + entry.data.note,
+      }); //JSON.stringify(entry)}); //
     }
     console.log(event.nativeEvent);
-  }
+  };
 
   filter = (index) => {
     let newFilters = [];

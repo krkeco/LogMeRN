@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Modal,
-} from 'react-native';
+import { StyleSheet, View, Text, Modal } from 'react-native';
 
 import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'

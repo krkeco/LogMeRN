@@ -63,13 +63,9 @@ export default class Navigator extends Component<Props> {
   };
 
   render() {
-    let viewPort = (
-      <Books
-        storeData={() => storeData(this.state.books)}
-        books={this.state.books}
-        selectBook={this.selectBook}
-      />
-    );
+    //normally this should be in navigator
+    //but this is a really small app
+    let viewPort;
 
     if (this.state.showLogBook) {
       viewPort = (
@@ -81,6 +77,15 @@ export default class Navigator extends Component<Props> {
           logBook={this.state.books[this.state.selectedBook]}
         />
       );
+    }else{
+      viewPort = (
+      <Books
+        storeData={() => storeData(this.state.books)}
+        books={this.state.books}
+        selectBook={this.selectBook}
+      />
+    );
+
     }
 
     return <View>{viewPort}</View>;

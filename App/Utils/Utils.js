@@ -17,4 +17,3 @@ export const getPrettyDate = (dateMils) => {
 
   return parsedDate;
 };
-

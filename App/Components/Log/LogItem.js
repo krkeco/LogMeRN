@@ -35,8 +35,7 @@ export default class LogItem extends Component<Props> {
     };
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   checkInputData = () => {
     Object.keys(this.props.log.values).map((value, index) => {
@@ -106,10 +105,10 @@ export default class LogItem extends Component<Props> {
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  let thisDate = new Date(value); 
+                  let thisDate = new Date(value);
                   let newVal =
                     thisDate.getTime() + thisDate.getTimezoneOffset() * 60000;
-                  
+
                   this.props.setDate(newVal);
                 }}
                 style={{

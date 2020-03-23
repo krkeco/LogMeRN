@@ -19,7 +19,6 @@ import { getPrettyDate } from '../../Utils/Utils.js';
 import Button from '../UI/Button.js';
 import DatePicker from '../UI/DatePicker.js';
 
-
 export default class GraphData extends Component<Props> {
   constructor(props) {
     super(props);
@@ -48,7 +47,7 @@ export default class GraphData extends Component<Props> {
   }
 
   componentDidMount() {
-    this.setLabelData()
+    this.setLabelData();
   }
 
   setLabelData = () => {
@@ -149,7 +148,7 @@ export default class GraphData extends Component<Props> {
   onLayout = (e) => {
     // this.setState({width: Dimensions.get('window').width})
     // console.log(width, height)
-  }
+  };
 
   filter = (index) => {
     let newFilters = [];
@@ -211,46 +210,51 @@ export default class GraphData extends Component<Props> {
   };
 
   render() {
-    return (<View>
-          <ScrollView>
-            <View style={{ flexDirection: 'row' }}>
-              <DatePicker text="Select Start Date" returnDate={this.setStartDate} />
-              <DatePicker text="Select End Date" returnDate={this.setEndDate} />
-              <Button
-                onPress={() => this.props.goBack()}
-                text="Hide"
-                icon={faChartBar}
-              />
-            </View>
-            <Text>
-              Graphing from: {this.state.startLabel} to {this.state.endLabel}
-            </Text>
-    
-            <ScrollView horizontal={true} onLayout={this.onLayout}>
-              <View style={{ flex: 1, width: 1000, height: 500 }}>
-                <View style={{ flex: 1 }}>
-                  <LineChart
-                    style={{ flex: 1 }}
-                    data={{
-                      dataSets: [
-                        {
-                          label: 'demo',
-                          values: [
-                            { x: 0, y: 0, marker: 'hello there' },
-                            { y: 1, x: 0 },
-                            { y: 1, x: 3, marker: 'hello there' },
-                            { y: 2, x: 4 },
-                            { y: 5, x: 6 },
-                            { y: 1, x: 7 },
-                          ],
-                        },
-                      ],
-                    }}
-                  />
-                </View>
+    return (
+      <View>
+        <ScrollView>
+          <View style={{ flexDirection: 'row' }}>
+            <DatePicker
+              text="Select Start Date"
+              returnDate={this.setStartDate}
+            />
+            <DatePicker text="Select End Date" returnDate={this.setEndDate} />
+            <Button
+              onPress={() => this.props.goBack()}
+              text="Hide"
+              icon={faChartBar}
+            />
+          </View>
+          <Text>
+            Graphing from: {this.state.startLabel} to {this.state.endLabel}
+          </Text>
+
+          <ScrollView horizontal={true} onLayout={this.onLayout}>
+            <View style={{ flex: 1, width: 1000, height: 500 }}>
+              <View style={{ flex: 1 }}>
+                <LineChart
+                  style={{ flex: 1 }}
+                  data={{
+                    dataSets: [
+                      {
+                        label: 'demo',
+                        values: [
+                          { x: 0, y: 0, marker: 'hello there' },
+                          { y: 1, x: 0 },
+                          { y: 1, x: 3, marker: 'hello there' },
+                          { y: 2, x: 4 },
+                          { y: 5, x: 6 },
+                          { y: 1, x: 7 },
+                        ],
+                      },
+                    ],
+                  }}
+                />
               </View>
-            </ScrollView>
+            </View>
           </ScrollView>
-        </View>);
+        </ScrollView>
+      </View>
+    );
   }
 }
