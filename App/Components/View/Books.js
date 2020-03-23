@@ -24,7 +24,7 @@ export default class Books extends Component<Props> {
   }
 
   addLogBook = (title) => {
-    this.setState({ newLogBook: false }, this.props.saveData);
+    this.setState({ newLogBook: false }, this.props.storeData);
     this.props.books.push(newBook(title));
   };
 

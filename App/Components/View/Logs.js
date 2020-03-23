@@ -84,7 +84,7 @@ export default class Logs extends Component<Props> {
     let key = date;
     log.values[key] = this.newLogObject(value, note);
 
-    this.props.saveData();
+    this.props.storeData();
   };
   newLogObject = (value, note) => {
     let newEntry = {
@@ -103,7 +103,7 @@ export default class Logs extends Component<Props> {
 
   setColor = (color, log) => {
     log.color = color;
-    this.props.saveData();
+    this.props.storeData();
   };
 
   render() {

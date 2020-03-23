@@ -24,10 +24,10 @@ export default class Navigator extends Component<Props> {
     this.setState({ books: JSON.parse(books) });
   }
 
-  deleteLogAlert = (books, bookIndex, logIndex) => {
+  initDeleteAlert = (books, removeIndex, parentIndex = -1) => {
     Alert.alert(
-      'Delete Log',
-      'Deleting this log means you will lose all the data you stored for it, are you sure you want to do this (this is irreversible).',
+      'Delete Item',
+      'Deleting this means you will lose all the data you stored for it, are you sure you want to do this (this is irreversible).',
       [
         {
           text: 'Oh Snap!',
@@ -37,34 +37,17 @@ export default class Navigator extends Component<Props> {
 
         { text: 'Confirmed!', onPress: () => {
           let newBooks = [];
-          newBooks = deleteLog(books, bookIndex, logIndex)
+          if( parentIndex < 0) {
+            this.goBack();
+            newBooks = deleteBook(books, removeIndex) 
+          } else{
+            newBooks = deleteLog(books, parentIndex, removeIndex)
+
+          }
           this.setState({ books: newBooks }, () => storeData(newBooks));
         } },
       { cancelable: false },
       ],
-    );
-  };
-
-  deleteBookAlert = (books, removeIndex) => {
-    Alert.alert(
-      'Delete LogBook',
-      'Deleting this logbook means you will lose all the data you stored for it, are you sure you want to do this (this is irreversible and super cereal).',
-      [
-        {
-          text: 'Oh Snap!',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-
-        { text: 'Confirmed!', onPress: () => {
-          this.goBack();
-          let updatedBooks = [];
-          updatedBooks = deleteBook(books, removeIndex) 
-          
-          this.setState({ books: updatedBooks }, ()=>storeData(updatedBooks));
-        }},
-      ],
-      { cancelable: true },
     );
   };
 
@@ -82,9 +65,8 @@ export default class Navigator extends Component<Props> {
   render() {
     let viewPort = (
       <Books
-        saveData={() => storeData(this.state.books)}
+        storeData={() => storeData(this.state.books)}
         books={this.state.books}
-        addBook={this.addBook}
         selectBook={this.selectBook}
       />
     );
@@ -93,9 +75,9 @@ export default class Navigator extends Component<Props> {
       viewPort = (
         <Logs
           goBack={this.goBack}
-          saveData={() =>  storeData(this.state.books)}
-          deleteLog={(index) => this.deleteLogAlert(this.state.books, this.state.selectedBook, index)}
-          deleteBook={() => this.deleteBookAlert(this.state.books,this.state.selectedBook)}
+          storeData={() =>  storeData(this.state.books)}
+          deleteLog={(index) => this.initDeleteAlert(this.state.books,  index, this.state.selectedBook)}
+          deleteBook={() => this.initDeleteAlert(this.state.books,this.state.selectedBook)}
           logBook={this.state.books[this.state.selectedBook]}
         />
       );
