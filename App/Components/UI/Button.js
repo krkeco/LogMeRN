@@ -6,7 +6,7 @@ import {
   Text,
 } from 'react-native';
 
-// import { faAngleLeft, faBars, faBarChart, faCalendar, faSave, faClose } from '@fortawesome/free-solid-svg-icons'
+
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export default class CustomButton extends Component<Props> {

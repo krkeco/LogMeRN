@@ -16,7 +16,7 @@ import LogItem from '../Log/LogItem.js';
 import GraphData from '../Graphing/GraphData.js';
 import SampleLine from '../Graphing/SampleLine.js';
 
-import { getPrettyDate } from '../../Utils.js';
+import { getPrettyDate } from '../../Utils/Utils.js';
 
 import {
   faAngleLeft,

@@ -15,7 +15,7 @@ import {
   faWindowClose,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { getPrettyDate } from '../../Utils.js';
+import { getPrettyDate } from '../../Utils/Utils.js';
 
 import Button from '../UI/Button.js';
 import ColorPicker from '../UI/ColorPicker';
@@ -36,8 +36,6 @@ export default class LogItem extends Component<Props> {
   }
 
   componentDidMount() {
-    // alert('lets check date')
-    // this.checkInputData();
   }
 
   checkInputData = () => {
@@ -56,7 +54,6 @@ export default class LogItem extends Component<Props> {
 
   onColorChange = (color) => {
     this.setState({ color: color });
-    // alert(color)
   };
 
   setColor = () => {
@@ -109,10 +106,10 @@ export default class LogItem extends Component<Props> {
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  let thisDate = new Date(value); //.getTime();
+                  let thisDate = new Date(value); 
                   let newVal =
                     thisDate.getTime() + thisDate.getTimezoneOffset() * 60000;
-                  // alert(thisDate+" "+value)
+                  
                   this.props.setDate(newVal);
                 }}
                 style={{

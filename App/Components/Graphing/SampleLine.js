@@ -12,7 +12,7 @@ import update from 'immutability-helper';
 import { faChartBar, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { LineChart } from 'react-native-charts-wrapper';
 
-import { getPrettyDate } from '../../Utils.js';
+import { getPrettyDate } from '../../Utils/Utils.js';
 
 import Button from '../UI/Button.js';
 import DatePicker from '../UI/DatePicker.js';

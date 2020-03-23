@@ -10,6 +10,8 @@ import {
 import DialogInput from 'react-native-dialog-input';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
+import {newBook} from '../../Utils/Book'
+
 import Button from '../UI/Button.js';
 
 export default class Books extends Component<Props> {
@@ -23,7 +25,7 @@ export default class Books extends Component<Props> {
 
   addLogBook = (title) => {
     this.setState({ newLogBook: false }, this.props.saveData);
-    this.props.books.push(this.props.newBook(title));
+    this.props.books.push(newBook(title));
   };
 
   render() {

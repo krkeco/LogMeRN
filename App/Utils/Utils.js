@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
+const BOOKS_KEY = 'books';
+
 export const getPrettyDate = (dateMils) => {
   let date = new Date(dateMils);
 
@@ -13,3 +17,4 @@ export const getPrettyDate = (dateMils) => {
 
   return parsedDate;
 };
+
