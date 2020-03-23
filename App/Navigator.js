@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  Text,
-  StatusBar,
-  Alert,
-} from 'react-native';
+import {View, Alert} from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-import LogBooks from './Components/Log/LogBooks.js';
-import Logs from './Components/Log/Logs.js';
+import Books from './Components/View/Books.js';
+import Logs from './Components/View/Logs.js';
 import Menu from './Components/UI/Menu.js';
 
 const BOOKS_KEY = 'books';
@@ -28,23 +20,25 @@ export default class Navigator extends Component<Props> {
   }
 
   componentDidMount() {
-    this.getLogData();
+    this.getData();
   }
 
   storeData = async () => {
     try {
       await AsyncStorage.setItem(BOOKS_KEY, JSON.stringify(this.state.books));
-      // alert('set'+JSON.stringify(this.state.books))
+      
     } catch (e) {
       console.log('error saving log data:'+e)
     }
   };
-  getLogData = async () => {
+
+  getData = async () => {
     try {
       const value = await AsyncStorage.getItem(BOOKS_KEY);
-      if (value !== null) {
+      if (value != null) {
         this.setState({ books: JSON.parse(value) });
       } else {
+        console.log('getData !value')
       }
     } catch (e) {
       console.log('error getting log data:'+e)
@@ -68,7 +62,7 @@ export default class Navigator extends Component<Props> {
     );
   };
 
-  deleteLogBookAlert = () => {
+  deleteBookAlert = () => {
     Alert.alert(
       'Delete LogBook',
       'Deleting this logbook means you will lose all the data you stored for it, are you sure you want to do this (this is irreversible and super cereal).',
@@ -84,6 +78,7 @@ export default class Navigator extends Component<Props> {
       { cancelable: true },
     );
   };
+
   deleteBook = () => {
     this.goBack();
     let newBook = [];
@@ -135,8 +130,8 @@ export default class Navigator extends Component<Props> {
   };
 
   render() {
-    let booksView = (
-      <LogBooks
+    let viewPort = (
+      <Books
         newBook={this.newBook}
         saveData={this.storeData}
         books={this.state.books}
@@ -146,17 +141,17 @@ export default class Navigator extends Component<Props> {
     );
 
     if (this.state.showLogBook) {
-      booksView = (
+      viewPort = (
         <Logs
           goBack={this.goBack}
           saveData={this.storeData}
           deleteLog={(index) => this.deleteLogAlert(index)}
-          deleteBook={() => this.deleteLogBookAlert()}
+          deleteBook={() => this.deleteBookAlert()}
           logBook={this.state.books[this.state.selectedBook]}
         />
       );
     }
 
-    return <View>{booksView}</View>;
+    return <View>{viewPort}</View>;
   }
 }
